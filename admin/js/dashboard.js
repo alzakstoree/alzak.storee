@@ -294,3 +294,148 @@ console.error(e);
 }
 
 };
+// =============================
+// ORDERS MANAGEMENT
+// =============================
+
+window.loadOrders = async function(){
+
+const container = document.getElementById("contentArea");
+
+container.innerHTML = "جاري تحميل الطلبات...";
+
+try{
+
+const records = await fetchRecords(TABLES.ORDERS);
+
+if(records.length === 0){
+container.innerHTML = "لا يوجد طلبات";
+return;
+}
+
+let html = `
+
+<h2>إدارة الطلبات</h2>
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+
+<th>المنتج</th>
+<th>ID اللاعب</th>
+<th>الحالة</th>
+<th>الإجراءات</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+records.forEach(r=>{
+
+const product = r.fields.product || "";
+const playerId = r.fields.playerId || "";
+const status = r.fields.status || "pending";
+
+html += `
+
+<tr>
+
+<td>${product}</td>
+
+<td>${playerId}</td>
+
+<td>${status}</td>
+
+<td>
+
+<button onclick="completeOrder('${r.id}')">
+إنهاء
+</button>
+
+<button onclick="deleteOrder('${r.id}')">
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+html += "</tbody></table>";
+
+container.innerHTML = html;
+
+}catch(e){
+
+container.innerHTML = "خطأ في تحميل الطلبات";
+
+console.error(e);
+
+}
+
+};
+
+
+
+// =============================
+// إنهاء الطلب
+// =============================
+
+window.completeOrder = async function(id){
+
+try{
+
+await updateRecord(TABLES.ORDERS,id,{
+status:"done"
+});
+
+showToast("تم إنهاء الطلب");
+
+loadOrders();
+
+}catch(e){
+
+showToast("فشل العملية");
+
+console.error(e);
+
+}
+
+};
+
+
+
+// =============================
+// حذف الطلب
+// =============================
+
+window.deleteOrder = async function(id){
+
+if(!confirmDelete("هل تريد حذف الطلب؟")) return;
+
+try{
+
+await deleteRecord(TABLES.ORDERS,id);
+
+showToast("تم حذف الطلب");
+
+loadOrders();
+
+}catch(e){
+
+showToast("فشل الحذف");
+
+console.error(e);
+
+}
+
+};
