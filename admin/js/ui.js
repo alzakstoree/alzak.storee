@@ -1,33 +1,65 @@
+// ===============================
 // UI FUNCTIONS
+// ===============================
+
 
 // فتح قسم في لوحة التحكم
 window.openSection = function(section){
 
 const area = document.getElementById("contentArea");
 
+
+// ===============================
+// DASHBOARD
+// ===============================
+
 if(section === "dashboard"){
 
 area.innerHTML = `
+
 <h2>لوحة القيادة</h2>
 
+<div class="stats-grid">
+
 <div class="card">
-<h3>إحصائيات المتجر</h3>
-<p>هنا ستظهر إحصائيات المنتجات والطلبات.</p>
+<h3 id="statProducts">0</h3>
+<p>عدد المنتجات</p>
+</div>
+
+<div class="card">
+<h3 id="statOrders">0</h3>
+<p>عدد الطلبات</p>
+</div>
+
+<div class="card">
+<h3 id="statUsers">0</h3>
+<p>المستخدمين</p>
+</div>
+
 </div>
 
 `;
 
+loadDashboardStats();
+
 }
 
+
+
+// ===============================
+// PRODUCTS
+// ===============================
 
 if(section === "products"){
 
 area.innerHTML = `
+
 <h2>إدارة المنتجات</h2>
 
 <button onclick="openAddProduct()">إضافة منتج</button>
 
 <div id="productsTable"></div>
+
 `;
 
 loadProducts();
@@ -35,66 +67,118 @@ loadProducts();
 }
 
 
+
+// ===============================
+// CATEGORIES
+// ===============================
+
 if(section === "categories"){
 
 area.innerHTML = `
+
 <h2>الأقسام</h2>
 
 <button onclick="openAddCategory()">إضافة قسم</button>
 
 <div id="categoriesTable"></div>
+
 `;
+
+loadCategories();
 
 }
 
+
+
+// ===============================
+// ORDERS
+// ===============================
 
 if(section === "orders"){
 
 area.innerHTML = `
+
 <h2>الطلبات</h2>
 
-<div class="card">
-<p>سيتم عرض طلبات العملاء هنا.</p>
-</div>
+<div id="ordersTable"></div>
+
 `;
+
+loadOrders();
 
 }
 
+
+
+// ===============================
+// USERS
+// ===============================
 
 if(section === "users"){
 
 area.innerHTML = `
+
 <h2>المستخدمين</h2>
 
-<div class="card">
-<p>إدارة المستخدمين.</p>
-</div>
+<div id="usersTable"></div>
+
 `;
+
+loadUsers();
 
 }
 
+
+
+// ===============================
+// PAYMENTS
+// ===============================
 
 if(section === "payments"){
 
 area.innerHTML = `
+
 <h2>طرق الدفع</h2>
 
-<div class="card">
-<p>إضافة شام كاش أو فيزا أو باي بال.</p>
-</div>
+<button onclick="openAddPayment()">إضافة طريقة دفع</button>
+
+<div id="paymentsTable"></div>
+
 `;
+
+loadPayments();
 
 }
 
+
+
+// ===============================
+// SETTINGS
+// ===============================
 
 if(section === "settings"){
 
 area.innerHTML = `
-<h2>الإعدادات</h2>
+
+<h2>إعدادات المتجر</h2>
 
 <div class="card">
-<p>إعدادات المتجر العامة.</p>
+
+<label>وضع الصيانة</label>
+
+<select id="maintenanceMode">
+
+<option value="off">إيقاف</option>
+<option value="on">تشغيل</option>
+
+</select>
+
+<br><br>
+
+<button onclick="saveSettings()">حفظ</button>
+
 </div>
+
 `;
 
 }
@@ -102,7 +186,13 @@ area.innerHTML = `
 }
 
 
-// فتح نافذة منبثقة
+
+// ===============================
+// MODAL SYSTEM
+// ===============================
+
+
+// فتح نافذة
 window.openModal = function(html){
 
 const modal = document.getElementById("modal");
@@ -112,18 +202,22 @@ body.innerHTML = html;
 
 modal.style.display = "flex";
 
-}
+};
 
 
-// إغلاق النافذة
+// إغلاق نافذة
 window.closeModal = function(){
 
 document.getElementById("modal").style.display = "none";
 
-}
+};
 
 
-// نافذة إضافة منتج
+
+// ===============================
+// ADD PRODUCT MODAL
+// ===============================
+
 window.openAddProduct = function(){
 
 openModal(`
@@ -139,14 +233,20 @@ openModal(`
 <label>الصورة</label>
 <input id="productImage">
 
+<br><br>
+
 <button onclick="addProduct()">إضافة</button>
 
 `);
 
-}
+};
 
 
-// نافذة إضافة قسم
+
+// ===============================
+// ADD CATEGORY MODAL
+// ===============================
+
 window.openAddCategory = function(){
 
 openModal(`
@@ -156,8 +256,36 @@ openModal(`
 <label>اسم القسم</label>
 <input id="categoryName">
 
+<br><br>
+
 <button onclick="addCategory()">إضافة</button>
 
 `);
 
-}
+};
+
+
+
+// ===============================
+// ADD PAYMENT METHOD
+// ===============================
+
+window.openAddPayment = function(){
+
+openModal(`
+
+<h3>إضافة طريقة دفع</h3>
+
+<label>اسم الطريقة</label>
+<input id="paymentName">
+
+<label>الوصف</label>
+<input id="paymentDescription">
+
+<br><br>
+
+<button onclick="addPayment()">إضافة</button>
+
+`);
+
+};
