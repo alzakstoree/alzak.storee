@@ -1,13 +1,16 @@
 // =============================
-// PRODUCTS MANAGEMENT
+// PRODUCTS PRO MAX SYSTEM
 // =============================
+
+let productsCache = [];
+
 
 
 // تحميل المنتجات
 
 window.loadProducts = async function(){
 
-const container = document.getElementById("productsTable");
+const container = document.getElementById("contentArea");
 
 container.innerHTML = "جاري تحميل المنتجات...";
 
@@ -15,12 +18,44 @@ try{
 
 const records = await fetchRecords(TABLES.PRODUCTS);
 
-if(records.length === 0){
-container.innerHTML = "<p>لا يوجد منتجات</p>";
-return;
+productsCache = records;
+
+renderProducts(records);
+
+}catch(e){
+
+container.innerHTML = "خطأ في تحميل المنتجات";
+console.error(e);
+
 }
 
+};
+
+
+
+// رسم المنتجات
+
+function renderProducts(records){
+
+const container = document.getElementById("contentArea");
+
 let html = `
+
+<div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+
+<input 
+id="searchProduct" 
+placeholder="بحث عن منتج..."
+onkeyup="searchProducts()"
+style="padding:8px;width:200px">
+
+<button onclick="openAddProduct()">
+إضافة منتج
+</button>
+
+</div>
+
+
 <table class="admin-table">
 
 <thead>
@@ -46,7 +81,7 @@ html += `
 <tr>
 
 <td>
-<img src="${image}" style="width:50px;border-radius:6px;">
+<img src="${image}" style="width:45px;border-radius:6px">
 </td>
 
 <td>${name}</td>
@@ -54,6 +89,10 @@ html += `
 <td>${price}$</td>
 
 <td>
+
+<button onclick="editProduct('${r.id}')">
+<i class="fa fa-pen"></i>
+</button>
 
 <button onclick="deleteProduct('${r.id}')">
 <i class="fa fa-trash"></i>
@@ -71,13 +110,56 @@ html += "</tbody></table>";
 
 container.innerHTML = html;
 
-}catch(e){
-
-container.innerHTML = "خطأ في تحميل المنتجات";
-
-console.error(e);
-
 }
+
+
+
+// =============================
+// البحث
+// =============================
+
+window.searchProducts = function(){
+
+const value = document
+.getElementById("searchProduct")
+.value
+.toLowerCase();
+
+const filtered = productsCache.filter(p=>
+(p.fields.name || "")
+.toLowerCase()
+.includes(value)
+);
+
+renderProducts(filtered);
+
+};
+
+
+
+// =============================
+// نافذة إضافة منتج
+// =============================
+
+window.openAddProduct = function(){
+
+const html = `
+
+<h3>إضافة منتج</h3>
+
+<input id="productName" placeholder="اسم المنتج">
+
+<input id="productPrice" placeholder="السعر">
+
+<input id="productImage" placeholder="رابط الصورة">
+
+<br><br>
+
+<button onclick="addProduct()">إضافة</button>
+
+`;
+
+openModal(html);
 
 };
 
@@ -114,8 +196,7 @@ loadProducts();
 
 }catch(e){
 
-showToast("فشل إضافة المنتج");
-
+showToast("فشل الإضافة");
 console.error(e);
 
 }
@@ -125,7 +206,72 @@ console.error(e);
 
 
 // =============================
-// حذف منتج
+// تعديل المنتج
+// =============================
+
+window.editProduct = function(id){
+
+const product = productsCache.find(p=>p.id === id);
+
+const html = `
+
+<h3>تعديل المنتج</h3>
+
+<input id="editName" value="${product.fields.name || ""}">
+
+<input id="editPrice" value="${product.fields.price || ""}">
+
+<input id="editImage" value="${product.fields.image || ""}">
+
+<br><br>
+
+<button onclick="updateProduct('${id}')">
+حفظ
+</button>
+
+`;
+
+openModal(html);
+
+};
+
+
+
+// تحديث المنتج
+
+window.updateProduct = async function(id){
+
+const name = document.getElementById("editName").value;
+const price = document.getElementById("editPrice").value;
+const image = document.getElementById("editImage").value;
+
+try{
+
+await updateRecord(TABLES.PRODUCTS,id,{
+name:name,
+price:price,
+image:image
+});
+
+showToast("تم التعديل");
+
+closeModal();
+
+loadProducts();
+
+}catch(e){
+
+showToast("فشل التعديل");
+console.error(e);
+
+}
+
+};
+
+
+
+// =============================
+// حذف المنتج
 // =============================
 
 window.deleteProduct = async function(id){
@@ -136,14 +282,13 @@ try{
 
 await deleteRecord(TABLES.PRODUCTS,id);
 
-showToast("تم حذف المنتج");
+showToast("تم الحذف");
 
 loadProducts();
 
 }catch(e){
 
 showToast("فشل الحذف");
-
 console.error(e);
 
 }
