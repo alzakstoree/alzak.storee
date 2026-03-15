@@ -1,6 +1,10 @@
-// DASHBOARD LOGIC
+// =============================
+// PRODUCTS MANAGEMENT
+// =============================
+
 
 // تحميل المنتجات
+
 window.loadProducts = async function(){
 
 const container = document.getElementById("productsTable");
@@ -17,46 +21,59 @@ return;
 }
 
 let html = `
-<table>
+<table class="admin-table">
+
+<thead>
 <tr>
+<th>الصورة</th>
 <th>الاسم</th>
 <th>السعر</th>
-<th>إجراءات</th>
+<th>الإجراءات</th>
 </tr>
+</thead>
+
+<tbody>
 `;
 
 records.forEach(r=>{
 
 const name = r.fields.name || "";
 const price = r.fields.price || "";
+const image = r.fields.image || "";
 
 html += `
+
 <tr>
+
+<td>
+<img src="${image}" style="width:50px;border-radius:6px;">
+</td>
 
 <td>${name}</td>
 
-<td>${price}</td>
+<td>${price}$</td>
 
 <td>
 
 <button onclick="deleteProduct('${r.id}')">
-حذف
+<i class="fa fa-trash"></i>
 </button>
 
 </td>
 
 </tr>
+
 `;
 
 });
 
-html += "</table>";
+html += "</tbody></table>";
 
 container.innerHTML = html;
 
 }catch(e){
 
-container.innerHTML = "خطأ في جلب المنتجات";
+container.innerHTML = "خطأ في تحميل المنتجات";
 
 console.error(e);
 
@@ -66,7 +83,10 @@ console.error(e);
 
 
 
+// =============================
 // إضافة منتج
+// =============================
+
 window.addProduct = async function(){
 
 const name = document.getElementById("productName").value;
@@ -104,10 +124,13 @@ console.error(e);
 
 
 
+// =============================
 // حذف منتج
+// =============================
+
 window.deleteProduct = async function(id){
 
-if(!confirm("حذف المنتج؟")) return;
+if(!confirmDelete("هل تريد حذف المنتج؟")) return;
 
 try{
 
