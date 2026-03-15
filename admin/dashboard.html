@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -119,12 +120,32 @@
 
 
 
+<!-- SCRIPTS -->
+
 <script src="../shared/airtable-config.js"></script>
+
+<script src="../shared/tables.js"></script>
+
 <script src="../shared/airtable-service.js"></script>
+
 <script src="../shared/helpers.js"></script>
 
 <script src="js/ui.js"></script>
+
 <script src="js/dashboard.js"></script>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded",function(){
+
+if(typeof openSection === "function"){
+openSection("dashboard");
+}
+
+});
+
+</script>
 
 </body>
 
