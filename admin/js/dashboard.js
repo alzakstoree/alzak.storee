@@ -439,3 +439,187 @@ console.error(e);
 }
 
 };
+// =============================
+// PAYMENTS MANAGEMENT
+// =============================
+
+window.loadPayments = async function(){
+
+const container = document.getElementById("paymentsTable");
+
+if(!container) return;
+
+container.innerHTML = "جاري تحميل طرق الدفع...";
+
+try{
+
+const records = await fetchRecords(TABLES.PAYMENTS);
+
+if(records.length === 0){
+container.innerHTML = "لا يوجد طرق دفع";
+return;
+}
+
+let html = `
+
+<table class="admin-table">
+
+<thead>
+<tr>
+<th>الاسم</th>
+<th>الوصف</th>
+<th>الحالة</th>
+<th>الإجراءات</th>
+</tr>
+</thead>
+
+<tbody>
+
+`;
+
+records.forEach(r=>{
+
+const name = r.fields.name || "";
+const description = r.fields.description || "";
+const status = r.fields.status || "active";
+
+html += `
+
+<tr>
+
+<td>${name}</td>
+
+<td>${description}</td>
+
+<td>${status}</td>
+
+<td>
+
+<button onclick="editPayment('${r.id}')">
+<i class="fa fa-pen"></i>
+</button>
+
+<button onclick="deletePayment('${r.id}')">
+<i class="fa fa-trash"></i>
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+html += "</tbody></table>";
+
+container.innerHTML = html;
+
+}catch(e){
+
+container.innerHTML = "خطأ في تحميل طرق الدفع";
+console.error(e);
+
+}
+
+};
+
+
+
+// =============================
+// ADD PAYMENT
+// =============================
+
+window.addPayment = async function(){
+
+const name = document.getElementById("paymentName").value;
+const desc = document.getElementById("paymentDescription").value;
+
+if(!name){
+showToast("اكتب اسم طريقة الدفع");
+return;
+}
+
+try{
+
+await createRecord(TABLES.PAYMENTS,{
+name:name,
+description:desc,
+status:"active"
+});
+
+showToast("تم إضافة طريقة الدفع");
+
+closeModal();
+
+loadPayments();
+
+}catch(e){
+
+showToast("فشل الإضافة");
+
+console.error(e);
+
+}
+
+};
+
+
+
+// =============================
+// EDIT PAYMENT
+// =============================
+
+window.editPayment = async function(id){
+
+const newName = prompt("اسم طريقة الدفع الجديد");
+
+if(!newName) return;
+
+try{
+
+await updateRecord(TABLES.PAYMENTS,id,{
+name:newName
+});
+
+showToast("تم تعديل الطريقة");
+
+loadPayments();
+
+}catch(e){
+
+showToast("فشل التعديل");
+
+console.error(e);
+
+}
+
+};
+
+
+
+// =============================
+// DELETE PAYMENT
+// =============================
+
+window.deletePayment = async function(id){
+
+if(!confirmDelete("هل تريد حذف طريقة الدفع؟")) return;
+
+try{
+
+await deleteRecord(TABLES.PAYMENTS,id);
+
+showToast("تم حذف الطريقة");
+
+loadPayments();
+
+}catch(e){
+
+showToast("فشل الحذف");
+
+console.error(e);
+
+}
+
+};
