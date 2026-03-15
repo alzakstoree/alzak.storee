@@ -38,9 +38,49 @@ area.innerHTML = `
 
 </div>
 
+
+<div class="card" style="margin-top:30px">
+
+<h3>إحصائيات المبيعات</h3>
+
+<canvas id="salesChart" height="100"></canvas>
+
+</div>
+
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px">
+
+
+<div class="card">
+
+<h3>آخر الطلبات</h3>
+
+<div id="latestOrders">
+جاري التحميل...
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>أفضل المنتجات</h3>
+
+<div id="topProducts">
+جاري التحميل...
+</div>
+
+</div>
+
+
+</div>
+
 `;
 
 loadDashboardStats();
+loadSalesChart();
+loadLatestOrders();
+loadTopProducts();
 
 }
 
