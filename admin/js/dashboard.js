@@ -623,3 +623,55 @@ console.error(e);
 }
 
 };
+// =============================
+// DASHBOARD STATS
+// =============================
+
+window.loadDashboardStats = async function(){
+
+try{
+
+// جلب البيانات من Airtable
+
+const products = await fetchRecords(TABLES.PRODUCTS);
+const orders = await fetchRecords(TABLES.ORDERS);
+const users = await fetchRecords(TABLES.USERS);
+
+
+// حساب القيم
+
+const productsCount = products.length;
+const ordersCount = orders.length;
+const usersCount = users.length;
+
+
+// حساب الأرباح
+
+let revenue = 0;
+
+orders.forEach(o=>{
+
+const price = Number(o.fields.price || 0);
+
+revenue += price;
+
+});
+
+
+// عرض الإحصائيات
+
+const statProducts = document.getElementById("statProducts");
+const statOrders = document.getElementById("statOrders");
+const statUsers = document.getElementById("statUsers");
+
+if(statProducts) statProducts.innerText = productsCount;
+if(statOrders) statOrders.innerText = ordersCount;
+if(statUsers) statUsers.innerText = usersCount;
+
+}catch(e){
+
+console.error("Dashboard Stats Error",e);
+
+}
+
+};
