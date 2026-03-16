@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>...</head>
+<body>
+    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
+    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <div class="wrapper">
+        <nav class="sidebar d-none d-lg-block">
+            <div class="nav flex-column">
+                <div class="section-title">الإدارة</div>
+                <a href="order-messages.html" class="nav-link active"><i class="fas fa-envelope"></i> رسائل الطلبات</a>
+                <!-- ... -->
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-envelope ms-2"></i> رسائل الطلبات</h2>
+                <div>...</div>
+            </div>
+            <div class="stat-card">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">رسالة تأكيد الطلب</label>
+                        <textarea class="form-control" rows="2" id="orderConfirmMsg">تم استلام طلبك بنجاح</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">رسالة شحن الطلب</label>
+                        <textarea class="form-control" rows="2" id="orderShippedMsg">تم شحن طلبك</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">رسالة إلغاء الطلب</label>
+                        <textarea class="form-control" rows="2" id="orderCancelMsg">تم إلغاء طلبك</textarea>
+                    </div>
+                    <button type="button" class="btn btn-gold" onclick="saveOrderMessages()">حفظ</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="..."></script>
+</body>
+</html>
