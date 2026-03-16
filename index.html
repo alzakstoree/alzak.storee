@@ -130,10 +130,14 @@
 
         <!-- المحتوى الرئيسي -->
         <main class="main-content">
-            <!-- شريط API العلوي (محسّن) -->
+            <!-- شريط API العلوي مع إضافة أيقونة تسجيل الدخول -->
             <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4" style="background: rgba(20,22,27,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,215,0,0.2);">
                 <h2 class="gold-text fs-3 mb-0"><i class="fas fa-tachometer-alt ms-2"></i> لوحة المعلومات</h2>
                 <div class="d-flex align-items-center gap-3">
+                    <!-- زر تسجيل دخول الإدمن (لوجو الشخص) -->
+                    <button class="btn btn-outline-gold btn-sm px-3" data-bs-toggle="modal" data-bs-target="#adminLoginModal">
+                        <i class="fas fa-user me-1"></i>
+                    </button>
                     <span class="text-muted">حالة API:</span>
                     <span class="badge bg-warning text-dark px-3 py-2" id="apiStatus" style="background: rgba(255,215,0,0.2) !important; color: #ffd700 !important; border: 1px solid #ffd700;">غير مهيأ</span>
                     <button class="btn btn-outline-gold btn-sm px-4" data-bs-toggle="modal" data-bs-target="#apiConfigModal">
@@ -142,7 +146,7 @@
                 </div>
             </div>
 
-            <!-- بطاقات الإحصائيات (كما هي) -->
+            <!-- بطاقات الإحصائيات -->
             <div class="row g-4 mb-4">
                 <!-- إجمالي المبلغ المدين المستخدم -->
                 <div class="col-md-4">
@@ -266,20 +270,48 @@
                 </div>
             </div>
 
-            <!-- أزرار سريعة (محسّنة) -->
+            <!-- أزرار سريعة (جميعها بنفس التصميم الذهبي) -->
             <div class="d-flex flex-wrap gap-3 mb-5">
                 <button class="btn btn-gold" data-bs-toggle="modal" data-bs-target="#ordersModal"><i class="fas fa-truck me-2"></i> إدارة الطلبات</button>
-                <button class="btn btn-outline-gold" data-bs-toggle="modal" data-bs-target="#ordersModal"><i class="fas fa-eye me-2"></i> عرض الطلبات</button>
-                <button class="btn btn-outline-gold" data-bs-toggle="modal" data-bs-target="#manageProductsModal"><i class="fas fa-boxes me-2"></i> إدارة المنتجات</button>
-                <button class="btn btn-outline-gold" data-bs-toggle="modal" data-bs-target="#usersModal"><i class="fas fa-users me-2"></i> عرض المستخدمين</button>
-                <button class="btn btn-outline-gold" data-bs-toggle="modal" data-bs-target="#rechargeModal"><i class="fas fa-hand-holding-usd me-2"></i> إدارة طلبات الشحن</button>
+                <button class="btn btn-gold" data-bs-toggle="modal" data-bs-target="#ordersModal"><i class="fas fa-eye me-2"></i> عرض الطلبات</button>
+                <button class="btn btn-gold" data-bs-toggle="modal" data-bs-target="#manageProductsModal"><i class="fas fa-boxes me-2"></i> إدارة المنتجات</button>
+                <button class="btn btn-gold" data-bs-toggle="modal" data-bs-target="#usersModal"><i class="fas fa-users me-2"></i> عرض المستخدمين</button>
+                <button class="btn btn-gold" data-bs-toggle="modal" data-bs-target="#rechargeModal"><i class="fas fa-hand-holding-usd me-2"></i> إدارة طلبات الشحن</button>
             </div>
         </main>
     </div>
 
     <!-- ========== جميع النوافذ المنبثقة ========== -->
 
-    <!-- الرئيسية (مودال) -->
+    <!-- نافذة تسجيل دخول الإدمن -->
+    <div class="modal fade" id="adminLoginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text fs-4">تسجيل دخول الإدمن</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="adminLoginForm">
+                        <div class="mb-3">
+                            <label class="form-label">اسم المستخدم</label>
+                            <input type="text" class="form-control" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">كلمة المرور</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-gold" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-gold" onclick="adminLogin()">دخول</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- الرئيسية -->
     <div class="modal fade" id="dashboardModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -289,7 +321,6 @@
                 </div>
                 <div class="modal-body">
                     <p class="text-muted">مرحباً بك في لوحة تحكم ALZAK STORE. هنا يمكنك رؤية آخر الإحصائيات والأحداث.</p>
-                    <!-- يمكن إضافة محتوى ديناميكي لاحقاً -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-gold" data-bs-dismiss="modal">إغلاق</button>
@@ -364,13 +395,14 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>الصورة</th>
                                     <th>الاسم</th>
                                     <th>الوصف</th>
                                     <th>الإجراءات</th>
                                 </tr>
                             </thead>
                             <tbody id="categoriesTableBody">
-                                <tr><td colspan="3" class="text-center text-muted">لا توجد فئات بعد</td></tr>
+                                <tr><td colspan="4" class="text-center text-muted">لا توجد فئات بعد</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -383,7 +415,39 @@
         </div>
     </div>
 
-    <!-- إضافة منتج (موجود سابقاً) -->
+    <!-- إضافة فئة (مودال جديد) -->
+    <div class="modal fade" id="addCategoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text fs-4">إضافة فئة جديدة</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCategoryForm">
+                        <div class="mb-3">
+                            <label class="form-label">اسم الفئة</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الوصف</label>
+                            <textarea class="form-control" name="description" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">رابط الصورة</label>
+                            <input type="url" class="form-control" name="image_url" placeholder="https://example.com/image.jpg">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-gold" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-gold" onclick="addCategory()">حفظ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- إضافة منتج (مع حقل صورة) -->
     <div class="modal fade" id="addProductModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -435,11 +499,82 @@
                                 <option value="inactive">غير نشط</option>
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">رابط الصورة</label>
+                            <input type="url" class="form-control" name="image_url" placeholder="https://example.com/product.jpg">
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-gold" data-bs-dismiss="modal">إلغاء</button>
                     <button type="button" class="btn btn-gold" onclick="addProduct()">حفظ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- تعديل منتج (مودال جديد) -->
+    <div class="modal fade" id="editProductModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text fs-4">تعديل المنتج</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProductForm">
+                        <input type="hidden" name="id" id="editProductId">
+                        <div class="mb-3">
+                            <label class="form-label">اسم المنتج</label>
+                            <input type="text" class="form-control" name="name" id="editProductName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الفئة</label>
+                            <select class="form-select" name="category" id="editProductCategory" required>
+                                <option value="">اختر الفئة</option>
+                                <option value="اشتراكات">اشتراكات</option>
+                                <option value="رصيد">رصيد</option>
+                                <option value="خدمات">خدمات</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label class="form-label">السعر ($)</label>
+                                <input type="number" step="0.01" class="form-control" name="price" id="editProductPrice" required>
+                            </div>
+                            <div class="col mb-3">
+                                <label class="form-label">التكلفة ($)</label>
+                                <input type="number" step="0.01" class="form-control" name="cost" id="editProductCost" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">المورد</label>
+                            <select class="form-select" name="supplier_id" id="editProductSupplier">
+                                <option value="">اختر المورد</option>
+                                <option value="supp1">مورد 1</option>
+                                <option value="supp2">مورد 2</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الكمية المتاحة</label>
+                            <input type="number" class="form-control" name="stock" id="editProductStock" value="0">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الحالة</label>
+                            <select class="form-select" name="status" id="editProductStatus">
+                                <option value="active">نشط</option>
+                                <option value="inactive">غير نشط</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">رابط الصورة</label>
+                            <input type="url" class="form-control" name="image_url" id="editProductImage" placeholder="https://example.com/product.jpg">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-gold" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-gold" onclick="updateProduct()">تحديث</button>
                 </div>
             </div>
         </div>
@@ -458,6 +593,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>الصورة</th>
                                     <th>الاسم</th>
                                     <th>الفئة</th>
                                     <th>السعر</th>
@@ -468,7 +604,7 @@
                                 </tr>
                             </thead>
                             <tbody id="productsTableBody">
-                                <tr><td colspan="7" class="text-center text-muted">لا توجد منتجات بعد</td></tr>
+                                <tr><td colspan="8" class="text-center text-muted">لا توجد منتجات بعد</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -525,6 +661,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>الأيقونة</th>
                                     <th>الطريقة</th>
                                     <th>الحالة</th>
                                     <th>الحد الأدنى</th>
@@ -533,13 +670,63 @@
                                 </tr>
                             </thead>
                             <tbody id="paymentMethodsTableBody">
-                                <tr><td colspan="5" class="text-center text-muted">لا توجد طرق دفع</td></tr>
+                                <tr><td colspan="6" class="text-center text-muted">لا توجد طرق دفع</td></tr>
                             </tbody>
                         </table>
                     </div>
+                    <button class="btn btn-gold mt-3" data-bs-toggle="modal" data-bs-target="#addPaymentMethodModal">+ إضافة طريقة دفع</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-gold" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- إضافة طريقة دفع (مودال جديد) -->
+    <div class="modal fade" id="addPaymentMethodModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text fs-4">إضافة طريقة دفع</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPaymentMethodForm">
+                        <div class="mb-3">
+                            <label class="form-label">اسم الطريقة</label>
+                            <input type="text" class="form-control" name="method" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الحالة</label>
+                            <select class="form-select" name="status">
+                                <option value="active">نشط</option>
+                                <option value="inactive">غير نشط</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label class="form-label">الحد الأدنى ($)</label>
+                                <input type="number" step="0.01" class="form-control" name="min_amount" value="0">
+                            </div>
+                            <div class="col mb-3">
+                                <label class="form-label">الحد الأقصى ($)</label>
+                                <input type="number" step="0.01" class="form-control" name="max_amount" value="0">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">رابط صورة الأيقونة</label>
+                            <input type="url" class="form-control" name="icon_url" placeholder="https://example.com/icon.png">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">تعليمات الدفع</label>
+                            <textarea class="form-control" name="instructions" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-gold" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-gold" onclick="addPaymentMethod()">حفظ</button>
                 </div>
             </div>
         </div>
@@ -861,6 +1048,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>الشعار</th>
                                     <th>الاسم</th>
                                     <th>رابط API</th>
                                     <th>الحالة</th>
@@ -868,13 +1056,61 @@
                                 </tr>
                             </thead>
                             <tbody id="suppliersTableBody">
-                                <tr><td colspan="4" class="text-center text-muted">لا يوجد موردين</td></tr>
+                                <tr><td colspan="5" class="text-center text-muted">لا يوجد موردين</td></tr>
                             </tbody>
                         </table>
                     </div>
+                    <button class="btn btn-gold mt-3" data-bs-toggle="modal" data-bs-target="#addSupplierModal">+ إضافة مورد جديد</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-gold" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- إضافة مورد (مودال جديد) -->
+    <div class="modal fade" id="addSupplierModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text fs-4">إضافة مورد جديد</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addSupplierForm">
+                        <div class="mb-3">
+                            <label class="form-label">اسم المورد</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">رابط API</label>
+                            <input type="url" class="form-control" name="api_url">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">مفتاح API</label>
+                            <input type="text" class="form-control" name="api_key">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">المفتاح السري</label>
+                            <input type="text" class="form-control" name="api_secret">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">شعار المورد</label>
+                            <input type="url" class="form-control" name="logo_url" placeholder="https://example.com/logo.png">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الحالة</label>
+                            <select class="form-select" name="status">
+                                <option value="active">نشط</option>
+                                <option value="inactive">غير نشط</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-gold" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-gold" onclick="addSupplier()">حفظ</button>
                 </div>
             </div>
         </div>
@@ -943,7 +1179,7 @@
         </div>
     </div>
 
-    <!-- إرسال إشعار (موجود) -->
+    <!-- إرسال إشعار -->
     <div class="modal fade" id="notificationsModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -1169,7 +1405,7 @@
         </div>
     </div>
 
-    <!-- إعدادات API (موجود) -->
+    <!-- إعدادات API -->
     <div class="modal fade" id="apiConfigModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
