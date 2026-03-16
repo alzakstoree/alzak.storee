@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>...</head>
+<body>
+    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
+    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <div class="wrapper">
+        <nav class="sidebar d-none d-lg-block">
+            <div class="nav flex-column">
+                <!-- القائمة كاملة مع بقية الروابط، ويمكن إبقاء الـ active على أي رابط، لكن هذه الصفحة تأتي من الرابط في البطاقة -->
+                <!-- نفضل عدم تغيير active هنا لأنها صفحة فرعية -->
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-file-invoice ms-2"></i> تفاصيل الرصيد المدين</h2>
+                <div>...</div>
+            </div>
+            <div class="stat-card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>المستخدم</th>
+                                <th>الرصيد المدين</th>
+                                <th>آخر تحديث</th>
+                                <th>ملاحظات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="debtTableBody">
+                            <tr><td colspan="4" class="text-center text-muted">لا توجد بيانات</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="..."></script>
+</body>
+</html>
