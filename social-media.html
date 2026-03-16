@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>...</head>
+<body>
+    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
+    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <div class="wrapper">
+        <nav class="sidebar d-none d-lg-block">
+            <div class="nav flex-column">
+                <div class="section-title">الإدارة</div>
+                <a href="social-media.html" class="nav-link active"><i class="fas fa-share-alt"></i> روابط التواصل</a>
+                <!-- ... -->
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-share-alt ms-2"></i> روابط التواصل الاجتماعي</h2>
+                <div>...</div>
+            </div>
+            <div class="stat-card">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fab fa-facebook me-2" style="color:#1877f2;"></i> فيسبوك</label>
+                        <input type="url" class="form-control" id="facebookUrl" placeholder="https://facebook.com/...">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fab fa-twitter me-2" style="color:#1da1f2;"></i> تويتر</label>
+                        <input type="url" class="form-control" id="twitterUrl" placeholder="https://twitter.com/...">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fab fa-instagram me-2" style="color:#e1306c;"></i> انستغرام</label>
+                        <input type="url" class="form-control" id="instagramUrl" placeholder="https://instagram.com/...">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fab fa-whatsapp me-2" style="color:#25d366;"></i> واتساب</label>
+                        <input type="url" class="form-control" id="whatsappUrl" placeholder="https://wa.me/...">
+                    </div>
+                    <button type="button" class="btn btn-gold" onclick="saveSocialLinks()">حفظ الروابط</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="..."></script>
+</body>
+</html>
