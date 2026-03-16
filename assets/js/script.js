@@ -49,20 +49,26 @@ async function airtableFetch(tableName, options = {}) {
         'Authorization': `Bearer ${AIRTABLE_CONFIG.API_KEY}`,
         'Content-Type': 'application/json'
     };
-    const response = await fetch(url, { headers, ...options });
-    if (!response.ok) throw new Error(`خطأ ${response.status}`);
-    return await response.json();
+    try {
+        const response = await fetch(url, { headers, ...options });
+        if (!response.ok) throw new Error(`خطأ ${response.status}`);
+        return await response.json();
+    } catch (error) {
+        console.error('Airtable error:', error);
+        throw error;
+    }
 }
 
 function showLoadingIndicators() {
-    const ids = ['pendingOrders','totalOrders','activeProducts','totalUsers','pendingRecharge','totalBalances','totalSales','totalCosts','netProfit'];
+    const ids = [
+        'totalDebt', 'ordersThisMonth', 'totalSales', 'totalCosts', 'netProfit',
+        'pendingOrders', 'totalOrders', 'activeProducts', 'totalUsers',
+        'totalBalances', 'pendingRecharge', 'allowedDebtUsers'
+    ];
     ids.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.innerHTML = '<span class="spinner-border spinner-border-sm text-gold"></span>';
     });
-    document.getElementById('topSpenders').innerHTML = '<tr><td colspan="2" class="text-center"><span class="spinner-border spinner-border-sm text-gold"></span></td></tr>';
-    document.getElementById('negativeBalanceUsers').innerHTML = '<tr><td colspan="2" class="text-center"><span class="spinner-border spinner-border-sm text-gold"></span></td></tr>';
-    document.getElementById('recentOrders').innerHTML = '<tr><td colspan="6" class="text-center"><span class="spinner-border spinner-border-sm text-gold"></span></td></tr>';
 }
 
 async function loadDashboardData() {
@@ -70,92 +76,115 @@ async function loadDashboardData() {
     if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY' || AIRTABLE_CONFIG.BASE_ID === 'YOUR_BASE_ID') return;
 
     try {
+        // جلب الطلبات
         const orders = await airtableFetch('orders');
-        document.getElementById('totalOrders').innerText = orders.records.length;
+        const ordersList = orders.records;
+        document.getElementById('totalOrders').innerText = ordersList.length;
 
+        // جلب المنتجات
         const products = await airtableFetch('products');
-        const active = products.records.filter(p => p.fields.status === 'active').length;
-        document.getElementById('activeProducts').innerText = active;
+        const activeProducts = products.records.filter(p => p.fields.status === 'active').length;
+        document.getElementById('activeProducts').innerText = activeProducts;
 
+        // جلب المستخدمين
         const users = await airtableFetch('users');
         document.getElementById('totalUsers').innerText = users.records.length;
 
+        // إجمالي رصيد المستخدمين
         let totalBal = 0;
         users.records.forEach(u => totalBal += (u.fields.balance || 0));
-        document.getElementById('totalBalances').innerText = '$' + totalBal.toLocaleString();
+        document.getElementById('totalBalances').innerText = '$' + totalBal.toFixed(2);
 
+        // طلبات معلقة
+        const pending = ordersList.filter(o => o.fields.status === 'pending').length;
+        document.getElementById('pendingOrders').innerText = pending;
+
+        // إجمالي المبيعات والتكاليف والأرباح
         let sales = 0, costs = 0;
-        orders.records.forEach(o => {
+        ordersList.forEach(o => {
             sales += (o.fields.price || 0);
             costs += (o.fields.cost || 0);
         });
-        document.getElementById('totalSales').innerText = '$' + sales.toLocaleString();
-        document.getElementById('totalCosts').innerText = '$' + costs.toLocaleString();
-        document.getElementById('netProfit').innerText = '$' + (sales - costs).toLocaleString();
+        document.getElementById('totalSales').innerText = '$' + sales.toFixed(4);
+        document.getElementById('totalCosts').innerText = '$' + costs.toFixed(4);
+        document.getElementById('netProfit').innerText = '$' + (sales - costs).toFixed(4);
 
-        const pendingOrders = orders.records.filter(o => o.fields.status === 'pending').length;
-        document.getElementById('pendingOrders').innerText = pendingOrders;
+        // تحويل لليرة (سعر صرف افتراضي)
+        const exchangeRate = 15000; // يمكن جعله ديناميكياً
+        document.getElementById('totalDebtSYP').innerText = (0).toFixed(2) + ' ل.س'; // سيتم تحديثه لاحقاً
+        document.getElementById('totalSalesSYP').innerText = (sales * exchangeRate).toFixed(2) + ' ل.س';
+        document.getElementById('totalCostsSYP').innerText = (costs * exchangeRate).toFixed(2) + ' ل.س';
+        document.getElementById('netProfitSYP').innerText = ((sales - costs) * exchangeRate).toFixed(2) + ' ل.س';
 
+        // طلبات الشحن المعالجة (افترض جدول rechargeRequests)
         try {
             const recharges = await airtableFetch('rechargeRequests');
-            const pendingRe = recharges.records.filter(r => r.fields.status === 'pending').length;
-            document.getElementById('pendingRecharge').innerText = pendingRe;
+            const pendingRecharge = recharges.records.filter(r => r.fields.status === 'pending').length;
+            document.getElementById('pendingRecharge').innerText = pendingRecharge;
         } catch { document.getElementById('pendingRecharge').innerText = '0'; }
 
-        // top spenders
-        const spend = {};
-        orders.records.forEach(o => { if (o.fields.user_id) spend[o.fields.user_id] = (spend[o.fields.user_id]||0) + (o.fields.price||0); });
-        const top = Object.entries(spend).sort((a,b) => b[1]-a[1]).slice(0,3);
-        let topHtml = '';
-        for (let [uid, amt] of top) {
-            const u = users.records.find(u => u.id === uid);
-            topHtml += `<tr><td>${u ? u.fields.name : '?'}</td><td>$${amt.toLocaleString()}</td></tr>`;
-        }
-        document.getElementById('topSpenders').innerHTML = topHtml || '<tr><td colspan="2">لا بيانات</td></tr>';
+        // المستخدمون المسموح لهم برصيد مدين (افترض حقل debt_allowed في users)
+        const allowedDebt = users.records.filter(u => u.fields.debt_allowed === true).length;
+        document.getElementById('allowedDebtUsers').innerText = allowedDebt;
 
-        const neg = users.records.filter(u => (u.fields.balance||0) < 0).slice(0,3);
-        let negHtml = '';
-        neg.forEach(u => negHtml += `<tr><td>${u.fields.name}</td><td class="text-danger">$${u.fields.balance}</td></tr>`);
-        document.getElementById('negativeBalanceUsers').innerHTML = negHtml || '<tr><td colspan="2">لا يوجد</td></tr>';
+        // إجمالي المبلغ المدين (افترض حقل debt_balance)
+        let totalDebt = 0;
+        users.records.forEach(u => totalDebt += (u.fields.debt_balance || 0));
+        document.getElementById('totalDebt').innerText = '$' + totalDebt.toFixed(2);
 
-        const recent = orders.records.slice(-5).reverse();
-        let recentHtml = '';
-        recent.forEach(o => {
-            const u = users.records.find(u => u.id === o.fields.user_id);
-            recentHtml += `<tr><td>${o.id}</td><td>${u ? u.fields.name : '?'}</td><td>${o.fields.product_name||'منتج'}</td><td><span class="badge-gold">${o.fields.status||'مكتمل'}</span></td><td>$${o.fields.price||0}</td><td>${o.fields.date||'-'}</td></tr>`;
-        });
-        document.getElementById('recentOrders').innerHTML = recentHtml || '<tr><td colspan="6">لا طلبات</td></tr>';
-    } catch (e) {
-        console.error(e);
+        // عدد الطلبات هذا الشهر
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        const ordersThisMonth = ordersList.filter(o => {
+            const date = new Date(o.fields.date);
+            return date >= startOfMonth && date <= endOfMonth;
+        }).length;
+        document.getElementById('ordersThisMonth').innerText = ordersThisMonth;
+
+        // تحديث نطاق التاريخ في البطاقة
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        document.getElementById('ordersDateRange').innerText = 
+            `${endOfMonth.toLocaleDateString('ar-EG', options)} – ${startOfMonth.toLocaleDateString('ar-EG', options)}`;
+
+    } catch (error) {
+        console.error(error);
         alert('فشل تحميل البيانات. تحقق من API والإعدادات.');
     }
 }
 
+// وظيفة إضافة منتج (مثال)
 async function addProduct() {
     const form = document.getElementById('addProductForm');
     const data = new FormData(form);
     const product = {};
-    data.forEach((v,k) => product[k]=v);
+    data.forEach((v, k) => product[k] = v);
     if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
     try {
-        await airtableFetch('products', { method:'POST', body: JSON.stringify({ fields: product }) });
+        await airtableFetch('products', { method: 'POST', body: JSON.stringify({ fields: product }) });
         alert('تمت الإضافة');
         bootstrap.Modal.getInstance(document.getElementById('addProductModal')).hide();
         form.reset();
         loadDashboardData();
-    } catch (e) { alert('خطأ: '+e.message); }
+    } catch (e) { alert('خطأ: ' + e.message); }
 }
 
+// وظيفة إرسال إشعار (مثال)
+function sendNotification() {
+    alert('وظيفة إرسال الإشعارات قيد التطوير');
+}
+
+// رسم بياني للأرباح (إذا أردت إضافته لاحقاً)
 function initProfitChart() {
     const ctx = document.getElementById('profitChart');
     if (!ctx) return;
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['السبت','الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'],
+            labels: ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'],
             datasets: [{
                 label: 'صافي الربح ($)',
-                data: [1200,1900,1500,2200,1800,2400,2100],
+                data: [1200, 1900, 1500, 2200, 1800, 2400, 2100],
                 borderColor: '#ffb347',
                 backgroundColor: 'rgba(255,180,71,0.1)',
                 tension: 0.3,
@@ -171,10 +200,23 @@ function initProfitChart() {
     });
 }
 
+// تشغيل عند تحميل الصفحة
 window.onload = function() {
     loadApiConfig();
     initProfitChart();
     if (AIRTABLE_CONFIG.API_KEY !== 'YOUR_API_KEY' && AIRTABLE_CONFIG.BASE_ID !== 'YOUR_BASE_ID') {
         loadDashboardData();
+    }
+
+    // التعامل مع مفتاح وضع الصيانة (تخزين الحالة)
+    const maintenanceSwitch = document.getElementById('maintenanceMode');
+    if (maintenanceSwitch) {
+        // قراءة الحالة المحفوظة
+        const saved = localStorage.getItem('maintenanceMode') === 'true';
+        maintenanceSwitch.checked = saved;
+        maintenanceSwitch.addEventListener('change', function() {
+            localStorage.setItem('maintenanceMode', this.checked);
+            // هنا يمكن إرسال الحالة إلى Airtable أو أي مكان
+        });
     }
 };
