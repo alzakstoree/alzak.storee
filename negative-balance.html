@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>...</head>
+<body>
+    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
+    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <div class="wrapper">
+        <nav class="sidebar d-none d-lg-block">
+            <div class="nav flex-column">
+                <a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> الرئيسية</a>
+                <div class="section-title">المستخدمون</div>
+                <a href="users.html" class="nav-link"><i class="fas fa-users"></i> إدارة المستخدمين</a>
+                <a href="negative-balance.html" class="nav-link active"><i class="fas fa-balance-scale"></i> رصيد سلبي</a>
+                <a href="top-spenders.html" class="nav-link"><i class="fas fa-crown"></i> الأكثر إنفاقاً</a>
+                <!-- باقي الروابط -->
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-balance-scale ms-2"></i> المستخدمين ذوي الرصيد السلبي</h2>
+                <div>...</div>
+            </div>
+            <div class="stat-card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>المستخدم</th>
+                                <th>الرصيد الحالي</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="negativeTableBody">
+                            <tr><td colspan="3" class="text-center text-muted">لا يوجد مستخدمين برصيد سلبي</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="..."></script>
+</body>
+</html>
