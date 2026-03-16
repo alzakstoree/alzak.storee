@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>...</head>
+<body>
+    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
+    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <div class="wrapper">
+        <nav class="sidebar d-none d-lg-block">
+            <div class="nav flex-column">
+                <div class="section-title">الإدارة</div>
+                <a href="two-factor.html" class="nav-link active"><i class="fas fa-lock"></i> المصادقة الثنائية</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-lock ms-2"></i> المصادقة الثنائية</h2>
+                <div>...</div>
+            </div>
+            <div class="stat-card">
+                <div class="form-check form-switch mb-4">
+                    <input class="form-check-input" type="checkbox" id="twoFactorToggle" style="background-color: #ffd700; border-color: #ffd700;">
+                    <label class="form-check-label" for="twoFactorToggle">تفعيل المصادقة الثنائية لجميع المشرفين</label>
+                </div>
+                <p class="text-muted">عند التفعيل، سيُطلب من كل مشرف إدخال رمز تحقق إضافي عند تسجيل الدخول.</p>
+                <button class="btn btn-gold" onclick="saveTwoFactorSettings()">حفظ الإعدادات</button>
+            </div>
+        </main>
+    </div>
+    <script src="..."></script>
+</body>
+</html>
