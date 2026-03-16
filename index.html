@@ -32,40 +32,41 @@
         </div>
         <div class="offcanvas-body p-0">
             <div class="nav flex-column">
-                <a href="#" class="nav-link active"><i class="fas fa-tachometer-alt"></i> الرئيسية</a>
+                <a href="#" class="nav-link active" data-bs-toggle="modal" data-bs-target="#dashboardModal"><i class="fas fa-tachometer-alt"></i> الرئيسية</a>
                 <div class="section-title">إدارة الطلبات</div>
-                <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> الطلبات</a>
-                <a href="#" class="nav-link"><i class="fas fa-exclamation-triangle"></i> النزاعات / الشكاوى</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#ordersModal"><i class="fas fa-shopping-cart"></i> الطلبات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#disputesModal"><i class="fas fa-exclamation-triangle"></i> النزاعات / الشكاوى</a>
                 <div class="section-title">المنتجات والفئات</div>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#categoriesModal"><i class="fas fa-tags"></i> الفئات</a>
                 <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#addProductModal"><i class="fas fa-plus-circle"></i> إضافة منتج</a>
-                <a href="#" class="nav-link"><i class="fas fa-boxes"></i> إدارة المنتجات</a>
-                <a href="#" class="nav-link"><i class="fas fa-archive"></i> المخزون</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#manageProductsModal"><i class="fas fa-boxes"></i> إدارة المنتجات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#stockModal"><i class="fas fa-archive"></i> المخزون</a>
                 <div class="section-title">المالية</div>
-                <a href="#" class="nav-link"><i class="fas fa-credit-card"></i> طرق الدفع</a>
-                <a href="#" class="nav-link"><i class="fas fa-hand-holding-usd"></i> طلبات الشحن</a>
-                <a href="#" class="nav-link"><i class="fas fa-id-card"></i> بطاقات المتجر</a>
-                <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> سجل الأرباح</a>
-                <a href="#" class="nav-link"><i class="fas fa-coins"></i> العملات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#paymentMethodsModal"><i class="fas fa-credit-card"></i> طرق الدفع</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#rechargeModal"><i class="fas fa-hand-holding-usd"></i> طلبات الشحن</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#storeCardsModal"><i class="fas fa-id-card"></i> بطاقات المتجر</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#profitHistoryModal"><i class="fas fa-chart-line"></i> سجل الأرباح</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#currenciesModal"><i class="fas fa-coins"></i> العملات</a>
                 <div class="section-title">المستخدمون</div>
-                <a href="#" class="nav-link"><i class="fas fa-users"></i> إدارة المستخدمين</a>
-                <a href="#" class="nav-link"><i class="fas fa-balance-scale"></i> رصيد سلبي</a>
-                <a href="#" class="nav-link"><i class="fas fa-crown"></i> الأكثر إنفاقاً</a>
-                <a href="#" class="nav-link"><i class="fas fa-handshake"></i> الوكلاء / الموزعين</a>
-                <a href="#" class="nav-link"><i class="fas fa-link"></i> الإحالات</a>
-                <a href="#" class="nav-link"><i class="fas fa-star"></i> العضوية VIP</a>
-                <a href="#" class="nav-link"><i class="fas fa-percent"></i> نسبة أرباح VIP</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#usersModal"><i class="fas fa-users"></i> إدارة المستخدمين</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#negativeBalanceModal"><i class="fas fa-balance-scale"></i> رصيد سلبي</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#topSpendersModal"><i class="fas fa-crown"></i> الأكثر إنفاقاً</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#agentsModal"><i class="fas fa-handshake"></i> الوكلاء / الموزعين</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#referralsModal"><i class="fas fa-link"></i> الإحالات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#vipMembershipModal"><i class="fas fa-star"></i> العضوية VIP</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#vipProfitModal"><i class="fas fa-percent"></i> نسبة أرباح VIP</a>
                 <div class="section-title">الموردين و API</div>
-                <a href="#" class="nav-link"><i class="fas fa-truck"></i> إدارة الموردين</a>
-                <a href="#" class="nav-link"><i class="fas fa-file-import"></i> استيراد منتجات</a>
-                <a href="#" class="nav-link"><i class="fas fa-code"></i> عملاء API</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#suppliersModal"><i class="fas fa-truck"></i> إدارة الموردين</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#importProductsModal"><i class="fas fa-file-import"></i> استيراد منتجات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#apiClientsModal"><i class="fas fa-code"></i> عملاء API</a>
                 <div class="section-title">الإدارة</div>
-                <a href="#" class="nav-link"><i class="fas fa-bell"></i> إرسال إشعار</a>
-                <a href="#" class="nav-link"><i class="fas fa-paint-brush"></i> إعدادات التصميم</a>
-                <a href="#" class="nav-link"><i class="fas fa-envelope"></i> رسائل الطلبات</a>
-                <a href="#" class="nav-link"><i class="fas fa-layer-group"></i> إدارة التخطيط</a>
-                <a href="#" class="nav-link"><i class="fas fa-share-alt"></i> روابط التواصل</a>
-                <a href="#" class="nav-link"><i class="fas fa-user-shield"></i> حسابات الإدارة</a>
-                <a href="#" class="nav-link"><i class="fas fa-lock"></i> المصادقة الثنائية</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#notificationsModal"><i class="fas fa-bell"></i> إرسال إشعار</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#designSettingsModal"><i class="fas fa-paint-brush"></i> إعدادات التصميم</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#orderMessagesModal"><i class="fas fa-envelope"></i> رسائل الطلبات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#layoutModal"><i class="fas fa-layer-group"></i> إدارة التخطيط</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#socialMediaModal"><i class="fas fa-share-alt"></i> روابط التواصل</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#adminAccountsModal"><i class="fas fa-user-shield"></i> حسابات الإدارة</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#twoFactorModal"><i class="fas fa-lock"></i> المصادقة الثنائية</a>
             </div>
         </div>
     </div>
@@ -79,41 +80,41 @@
                 <p class="text-muted small">لوحة الإدارة</p>
             </div>
             <div class="nav flex-column">
-                <a href="#" class="nav-link active"><i class="fas fa-tachometer-alt"></i> الرئيسية</a>
+                <a href="#" class="nav-link active" data-bs-toggle="modal" data-bs-target="#dashboardModal"><i class="fas fa-tachometer-alt"></i> الرئيسية</a>
                 <div class="section-title">إدارة الطلبات</div>
-                <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> الطلبات</a>
-                <a href="#" class="nav-link"><i class="fas fa-exclamation-triangle"></i> النزاعات / الشكاوى</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#ordersModal"><i class="fas fa-shopping-cart"></i> الطلبات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#disputesModal"><i class="fas fa-exclamation-triangle"></i> النزاعات / الشكاوى</a>
                 <div class="section-title">المنتجات والفئات</div>
-                <a href="#" class="nav-link"><i class="fas fa-tags"></i> الفئات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#categoriesModal"><i class="fas fa-tags"></i> الفئات</a>
                 <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#addProductModal"><i class="fas fa-plus-circle"></i> إضافة منتج</a>
-                <a href="#" class="nav-link"><i class="fas fa-boxes"></i> إدارة المنتجات</a>
-                <a href="#" class="nav-link"><i class="fas fa-archive"></i> المخزون</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#manageProductsModal"><i class="fas fa-boxes"></i> إدارة المنتجات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#stockModal"><i class="fas fa-archive"></i> المخزون</a>
                 <div class="section-title">المالية</div>
-                <a href="#" class="nav-link"><i class="fas fa-credit-card"></i> طرق الدفع</a>
-                <a href="#" class="nav-link"><i class="fas fa-hand-holding-usd"></i> طلبات الشحن</a>
-                <a href="#" class="nav-link"><i class="fas fa-id-card"></i> بطاقات المتجر</a>
-                <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> سجل الأرباح</a>
-                <a href="#" class="nav-link"><i class="fas fa-coins"></i> العملات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#paymentMethodsModal"><i class="fas fa-credit-card"></i> طرق الدفع</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#rechargeModal"><i class="fas fa-hand-holding-usd"></i> طلبات الشحن</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#storeCardsModal"><i class="fas fa-id-card"></i> بطاقات المتجر</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#profitHistoryModal"><i class="fas fa-chart-line"></i> سجل الأرباح</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#currenciesModal"><i class="fas fa-coins"></i> العملات</a>
                 <div class="section-title">المستخدمون</div>
-                <a href="#" class="nav-link"><i class="fas fa-users"></i> إدارة المستخدمين</a>
-                <a href="#" class="nav-link"><i class="fas fa-balance-scale"></i> رصيد سلبي</a>
-                <a href="#" class="nav-link"><i class="fas fa-crown"></i> الأكثر إنفاقاً</a>
-                <a href="#" class="nav-link"><i class="fas fa-handshake"></i> الوكلاء / الموزعين</a>
-                <a href="#" class="nav-link"><i class="fas fa-link"></i> الإحالات</a>
-                <a href="#" class="nav-link"><i class="fas fa-star"></i> العضوية VIP</a>
-                <a href="#" class="nav-link"><i class="fas fa-percent"></i> نسبة أرباح VIP</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#usersModal"><i class="fas fa-users"></i> إدارة المستخدمين</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#negativeBalanceModal"><i class="fas fa-balance-scale"></i> رصيد سلبي</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#topSpendersModal"><i class="fas fa-crown"></i> الأكثر إنفاقاً</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#agentsModal"><i class="fas fa-handshake"></i> الوكلاء / الموزعين</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#referralsModal"><i class="fas fa-link"></i> الإحالات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#vipMembershipModal"><i class="fas fa-star"></i> العضوية VIP</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#vipProfitModal"><i class="fas fa-percent"></i> نسبة أرباح VIP</a>
                 <div class="section-title">الموردين و API</div>
-                <a href="#" class="nav-link"><i class="fas fa-truck"></i> إدارة الموردين</a>
-                <a href="#" class="nav-link"><i class="fas fa-file-import"></i> استيراد منتجات</a>
-                <a href="#" class="nav-link"><i class="fas fa-code"></i> عملاء API</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#suppliersModal"><i class="fas fa-truck"></i> إدارة الموردين</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#importProductsModal"><i class="fas fa-file-import"></i> استيراد منتجات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#apiClientsModal"><i class="fas fa-code"></i> عملاء API</a>
                 <div class="section-title">الإدارة</div>
-                <a href="#" class="nav-link"><i class="fas fa-bell"></i> إرسال إشعار</a>
-                <a href="#" class="nav-link"><i class="fas fa-paint-brush"></i> إعدادات التصميم</a>
-                <a href="#" class="nav-link"><i class="fas fa-envelope"></i> رسائل الطلبات</a>
-                <a href="#" class="nav-link"><i class="fas fa-layer-group"></i> إدارة التخطيط</a>
-                <a href="#" class="nav-link"><i class="fas fa-share-alt"></i> روابط التواصل</a>
-                <a href="#" class="nav-link"><i class="fas fa-user-shield"></i> حسابات الإدارة</a>
-                <a href="#" class="nav-link"><i class="fas fa-lock"></i> المصادقة الثنائية</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#notificationsModal"><i class="fas fa-bell"></i> إرسال إشعار</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#designSettingsModal"><i class="fas fa-paint-brush"></i> إعدادات التصميم</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#orderMessagesModal"><i class="fas fa-envelope"></i> رسائل الطلبات</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#layoutModal"><i class="fas fa-layer-group"></i> إدارة التخطيط</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#socialMediaModal"><i class="fas fa-share-alt"></i> روابط التواصل</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#adminAccountsModal"><i class="fas fa-user-shield"></i> حسابات الإدارة</a>
+                <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#twoFactorModal"><i class="fas fa-lock"></i> المصادقة الثنائية</a>
             </div>
         </nav>
 
@@ -131,146 +132,198 @@
                 </div>
             </div>
 
-            <!-- بطاقات الإحصائيات -->
+            <!-- بطاقات الإحصائيات (حسب الصور) -->
             <div class="row g-4 mb-4">
-                <div class="col-6 col-md-3">
-                    <div class="stat-card d-flex align-items-center">
-                        <div class="stat-icon ms-3"><i class="fas fa-hourglass-half"></i></div>
-                        <div>
-                            <span class="text-muted">طلبات معلقة</span>
-                            <h3 class="gold-text mb-0" id="pendingOrders"><span class="spinner-border spinner-border-sm text-gold"></span></h3>
-                        </div>
+                <!-- بطاقة إجمالي المبلغ المدين المستخدم -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">إجمالي المبلغ المدين المستخدم</span>
+                        <h3 class="gold-text mb-0" id="totalDebt">$0.00</h3>
+                        <small class="text-muted" id="totalDebtSYP">0.00 ل.س</small>
+                        <a href="#" class="d-block mt-2 small gold-text" data-bs-toggle="modal" data-bs-target="#debtDetailsModal">عرض تفاصيل الرصيد المدين</a>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card d-flex align-items-center">
-                        <div class="stat-icon ms-3"><i class="fas fa-shopping-bag"></i></div>
-                        <div>
-                            <span class="text-muted">إجمالي الطلبات</span>
-                            <h3 class="gold-text mb-0" id="totalOrders"><span class="spinner-border spinner-border-sm text-gold"></span></h3>
-                        </div>
+
+                <!-- بطاقة عدد الطلبات هذا الشهر -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">عدد الطلبات هذا الشهر</span>
+                        <h3 class="gold-text mb-0" id="ordersThisMonth">0</h3>
+                        <small class="text-muted" id="ordersDateRange">31-03-2026 – 01-03-2026</small>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card d-flex align-items-center">
-                        <div class="stat-icon ms-3"><i class="fas fa-cube"></i></div>
-                        <div>
-                            <span class="text-muted">منتجات نشطة</span>
-                            <h3 class="gold-text mb-0" id="activeProducts"><span class="spinner-border spinner-border-sm text-gold"></span></h3>
-                        </div>
+
+                <!-- بطاقة إجمالي المبيعات -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">إجمالي المبيعات</span>
+                        <h3 class="gold-text mb-0" id="totalSales">$0.0000</h3>
+                        <small class="text-muted" id="totalSalesSYP">0.00 ل.س</small>
+                        <div class="small text-muted">المبلغ المستلم من العملاء</div>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card d-flex align-items-center">
-                        <div class="stat-icon ms-3"><i class="fas fa-user-friends"></i></div>
-                        <div>
-                            <span class="text-muted">إجمالي المستخدمين</span>
-                            <h3 class="gold-text mb-0" id="totalUsers"><span class="spinner-border spinner-border-sm text-gold"></span></h3>
-                        </div>
+
+                <!-- بطاقة التكلفة الكلية -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">التكلفة الكلية</span>
+                        <h3 class="gold-text mb-0" id="totalCosts">$0.0000</h3>
+                        <small class="text-muted" id="totalCostsSYP">0.00 ل.س</small>
+                        <div class="small text-muted">تكلفة شراء المنتجات</div>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card d-flex align-items-center">
-                        <div class="stat-icon ms-3"><i class="fas fa-clock"></i></div>
-                        <div>
-                            <span class="text-muted">طلبات شحن معلقة</span>
-                            <h3 class="gold-text mb-0" id="pendingRecharge"><span class="spinner-border spinner-border-sm text-gold"></span></h3>
-                        </div>
+
+                <!-- بطاقة الأرباح الصافية -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">الأرباح الصافية</span>
+                        <h3 class="gold-text mb-0" id="netProfit">$0.0000</h3>
+                        <small class="text-muted" id="netProfitSYP">0.00 ل.س</small>
+                        <div class="small text-muted">بعد خصم التكاليف</div>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card d-flex align-items-center">
-                        <div class="stat-icon ms-3"><i class="fas fa-wallet"></i></div>
-                        <div>
-                            <span class="text-muted">إجمالي الأرصدة</span>
-                            <h3 class="gold-text mb-0" id="totalBalances"><span class="spinner-border spinner-border-sm text-gold"></span></h3>
+
+                <!-- بطاقة وضع الصيانة -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">وضع الصيانة</span>
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" id="maintenanceMode" style="background-color: var(--gold); border-color: var(--gold);">
+                            <label class="form-check-label" for="maintenanceMode">تفعيل وضع الصيانة</label>
                         </div>
+                        <small class="text-muted">التحكم بتفعيل أو إيقاف واجهة المستخدمين</small>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card d-flex align-items-center">
-                        <div class="stat-icon ms-3"><i class="fas fa-dollar-sign"></i></div>
-                        <div>
-                            <span class="text-muted">إجمالي المبيعات</span>
-                            <h3 class="gold-text mb-0" id="totalSales"><span class="spinner-border spinner-border-sm text-gold"></span></h3>
-                        </div>
+
+                <!-- بطاقة الطلبات قيد الانتظار -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">الطلبات قيد الانتظار</span>
+                        <h3 class="gold-text mb-0" id="pendingOrders">0</h3>
+                        <a href="#" class="d-block mt-2 small gold-text" data-bs-toggle="modal" data-bs-target="#ordersModal">إدارة الطلبات</a>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card d-flex align-items-center">
-                        <div class="stat-icon ms-3"><i class="fas fa-file-invoice-dollar"></i></div>
-                        <div>
-                            <span class="text-muted">إجمالي التكاليف</span>
-                            <h3 class="gold-text mb-0" id="totalCosts"><span class="spinner-border spinner-border-sm text-gold"></span></h3>
-                        </div>
+
+                <!-- بطاقة عدد الطلبات -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">عدد الطلبات</span>
+                        <h3 class="gold-text mb-0" id="totalOrders">0</h3>
+                        <a href="#" class="d-block mt-2 small gold-text" data-bs-toggle="modal" data-bs-target="#ordersModal">عرض التفاصيل</a>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card d-flex align-items-center">
-                        <div class="stat-icon ms-3"><i class="fas fa-chart-pie"></i></div>
-                        <div>
-                            <span class="text-muted">صافي الربح</span>
-                            <h3 class="gold-text mb-0" id="netProfit"><span class="spinner-border spinner-border-sm text-gold"></span></h3>
-                        </div>
+
+                <!-- بطاقة المنتجات النشطة -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">المنتجات النشطة</span>
+                        <h3 class="gold-text mb-0" id="activeProducts">0</h3>
+                    </div>
+                </div>
+
+                <!-- بطاقة عدد المستخدمين -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">عدد المستخدمين</span>
+                        <h3 class="gold-text mb-0" id="totalUsers">0</h3>
+                        <a href="#" class="d-block mt-2 small gold-text" data-bs-toggle="modal" data-bs-target="#usersModal">عرض المستخدمين</a>
+                    </div>
+                </div>
+
+                <!-- بطاقة إجمالي رصيد المستخدمين -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">إجمالي رصيد المستخدمين</span>
+                        <h3 class="gold-text mb-0" id="totalBalances">$0.00</h3>
+                    </div>
+                </div>
+
+                <!-- بطاقة طلبات شحن معالجة -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">طلبات شحن معالجة</span>
+                        <h3 class="gold-text mb-0" id="pendingRecharge">0</h3>
+                        <a href="#" class="d-block mt-2 small gold-text" data-bs-toggle="modal" data-bs-target="#rechargeModal">إدارة طلبات الشحن</a>
+                    </div>
+                </div>
+
+                <!-- بطاقة المستخدمون المسموح لهم برصيد مدين -->
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted">المستخدمون المسموح لهم برصيد مدين</span>
+                        <h3 class="gold-text mb-0" id="allowedDebtUsers">0</h3>
                     </div>
                 </div>
             </div>
 
-            <!-- أزرار سريعة -->
+            <!-- أزرار سريعة (إضافية) -->
             <div class="d-flex flex-wrap gap-2 mb-5">
-                <button class="btn btn-gold btn-sm"><i class="fas fa-truck"></i> إدارة الطلبات</button>
-                <button class="btn btn-outline-gold btn-sm"><i class="fas fa-eye"></i> عرض الطلبات</button>
-                <button class="btn btn-outline-gold btn-sm"><i class="fas fa-boxes"></i> إدارة المنتجات</button>
-                <button class="btn btn-outline-gold btn-sm"><i class="fas fa-users"></i> عرض المستخدمين</button>
-                <button class="btn btn-outline-gold btn-sm"><i class="fas fa-hand-holding-usd"></i> إدارة طلبات الشحن</button>
-            </div>
-
-            <!-- أقسام إضافية -->
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="stat-card">
-                        <h5 class="gold-text mb-3"><i class="fas fa-crown ms-2"></i> الأكثر إنفاقاً</h5>
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead><tr><th>المستخدم</th><th>الإنفاق</th></tr></thead>
-                                <tbody id="topSpenders"><tr><td colspan="2" class="text-center"><span class="spinner-border spinner-border-sm text-gold"></span></td></tr></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="stat-card">
-                        <h5 class="gold-text mb-3"><i class="fas fa-exclamation-triangle ms-2"></i> رصيد سلبي</h5>
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead><tr><th>المستخدم</th><th>الرصيد</th></tr></thead>
-                                <tbody id="negativeBalanceUsers"><tr><td colspan="2" class="text-center"><span class="spinner-border spinner-border-sm text-gold"></span></td></tr></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="stat-card">
-                        <h5 class="gold-text mb-3"><i class="fas fa-chart-line ms-2"></i> سجل الأرباح</h5>
-                        <canvas id="profitChart" style="width:100%; height:150px;"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- آخر الطلبات -->
-            <div class="stat-card mt-2">
-                <h5 class="gold-text mb-3"><i class="fas fa-history ms-2"></i> آخر الطلبات</h5>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead><tr><th>#</th><th>المستخدم</th><th>المنتج</th><th>الحالة</th><th>المبلغ</th><th>التاريخ</th></tr></thead>
-                        <tbody id="recentOrders"><tr><td colspan="6" class="text-center"><span class="spinner-border spinner-border-sm text-gold"></span></td></tr></tbody>
-                    </table>
-                </div>
+                <button class="btn btn-gold btn-sm" data-bs-toggle="modal" data-bs-target="#ordersModal"><i class="fas fa-truck"></i> إدارة الطلبات</button>
+                <button class="btn btn-outline-gold btn-sm" data-bs-toggle="modal" data-bs-target="#ordersModal"><i class="fas fa-eye"></i> عرض الطلبات</button>
+                <button class="btn btn-outline-gold btn-sm" data-bs-toggle="modal" data-bs-target="#manageProductsModal"><i class="fas fa-boxes"></i> إدارة المنتجات</button>
+                <button class="btn btn-outline-gold btn-sm" data-bs-toggle="modal" data-bs-target="#usersModal"><i class="fas fa-users"></i> عرض المستخدمين</button>
+                <button class="btn btn-outline-gold btn-sm" data-bs-toggle="modal" data-bs-target="#rechargeModal"><i class="fas fa-hand-holding-usd"></i> إدارة طلبات الشحن</button>
             </div>
         </main>
     </div>
 
-    <!-- نموذج إضافة منتج -->
+    <!-- ========== النوافذ المنبثقة (Modals) ========== -->
+    <!-- كل الأقسام تفتح نافذة منبثقة. سنضع نماذج بسيطة أو جداول لاحقاً -->
+    <!-- مثال: نافذة الطلبات -->
+    <div class="modal fade" id="ordersModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">إدارة الطلبات</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>هنا سيتم عرض جدول الطلبات وإمكانية التعديل. (قيد التطوير)</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة النزاعات -->
+    <div class="modal fade" id="disputesModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">النزاعات والشكاوى</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>قائمة النزاعات.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الفئات -->
+    <div class="modal fade" id="categoriesModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">إدارة الفئات</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>نموذج إضافة/تعديل الفئات.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة منتج (موجودة سابقاً) -->
     <div class="modal fade" id="addProductModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -325,6 +378,473 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
                     <button type="button" class="btn btn-gold" onclick="addProduct()">حفظ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إدارة المنتجات -->
+    <div class="modal fade" id="manageProductsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">إدارة المنتجات</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>جدول المنتجات مع إمكانية التعديل.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة المخزون -->
+    <div class="modal fade" id="stockModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">المخزون</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>عرض المخزون وتحديث الكميات.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة طرق الدفع -->
+    <div class="modal fade" id="paymentMethodsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">طرق الدفع</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>إعدادات طرق الدفع.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة طلبات الشحن -->
+    <div class="modal fade" id="rechargeModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">طلبات الشحن</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>عرض وإدارة طلبات الشحن.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة بطاقات المتجر -->
+    <div class="modal fade" id="storeCardsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">بطاقات المتجر</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>إدارة بطاقات المتجر.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة سجل الأرباح -->
+    <div class="modal fade" id="profitHistoryModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">سجل الأرباح</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>رسم بياني وجدول بالأرباح.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة العملات -->
+    <div class="modal fade" id="currenciesModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">العملات</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>إعدادات العملات وأسعار الصرف.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إدارة المستخدمين -->
+    <div class="modal fade" id="usersModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">إدارة المستخدمين</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>جدول المستخدمين مع إمكانية التعديل.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة رصيد سلبي -->
+    <div class="modal fade" id="negativeBalanceModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">المستخدمين ذوي الرصيد السلبي</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>قائمة المستخدمين الذين لديهم رصيد سلبي.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الأكثر إنفاقاً -->
+    <div class="modal fade" id="topSpendersModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">الأكثر إنفاقاً</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>ترتيب المستخدمين حسب الإنفاق.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الوكلاء/الموزعين -->
+    <div class="modal fade" id="agentsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">الوكلاء والموزعين</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>إدارة الوكلاء.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الإحالات -->
+    <div class="modal fade" id="referralsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">الإحالات</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>نظام الإحالات ومكافآتها.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة العضوية VIP -->
+    <div class="modal fade" id="vipMembershipModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">العضوية VIP</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>إعدادات مستويات VIP.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة نسبة أرباح VIP -->
+    <div class="modal fade" id="vipProfitModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">نسبة أرباح VIP</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>تحديد نسب الأرباح لكل مستوى VIP.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إدارة الموردين -->
+    <div class="modal fade" id="suppliersModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">إدارة الموردين</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>قائمة الموردين وإضافة/تعديل.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة استيراد منتجات -->
+    <div class="modal fade" id="importProductsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">استيراد منتجات</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>استيراد المنتجات من موردين عبر API.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة عملاء API -->
+    <div class="modal fade" id="apiClientsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">عملاء API</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>إدارة مفاتيح API للعملاء الخارجيين.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إرسال إشعار -->
+    <div class="modal fade" id="notificationsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">إرسال إشعار</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="notificationForm">
+                        <div class="mb-3">
+                            <label class="form-label">المستلمون</label>
+                            <select class="form-select" name="target">
+                                <option value="all">جميع المستخدمين</option>
+                                <option value="vip">VIP</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">العنوان</label>
+                            <input type="text" class="form-control" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الرسالة</label>
+                            <textarea class="form-control" name="message" rows="3" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-gold" onclick="sendNotification()">إرسال</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إعدادات التصميم -->
+    <div class="modal fade" id="designSettingsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">إعدادات التصميم</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>تغيير الألوان والشعارات.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة رسائل الطلبات -->
+    <div class="modal fade" id="orderMessagesModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">رسائل الطلبات</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>نصوص الرسائل المرسلة للعملاء.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إدارة التخطيط -->
+    <div class="modal fade" id="layoutModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">إدارة التخطيط</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>ترتيب العناصر في الصفحة الرئيسية للمتجر.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة روابط التواصل -->
+    <div class="modal fade" id="socialMediaModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">روابط التواصل الاجتماعي</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>إضافة/تعديل روابط فيسبوك، تويتر، إلخ.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة حسابات الإدارة -->
+    <div class="modal fade" id="adminAccountsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">حسابات الإدارة</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>إدارة المستخدمين الإداريين.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة المصادقة الثنائية -->
+    <div class="modal fade" id="twoFactorModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">المصادقة الثنائية</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>إعدادات المصادقة الثنائية للمشرفين.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تفاصيل الرصيد المدين -->
+    <div class="modal fade" id="debtDetailsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title gold-text">تفاصيل الرصيد المدين</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>قائمة المستخدمين الذين لديهم رصيد مدين وتفاصيله.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
                 </div>
             </div>
         </div>
