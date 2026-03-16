@@ -2,29 +2,42 @@
 <html lang="ar" dir="rtl">
 <head>...</head>
 <body>
-    <main class="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
-            <h2 class="gold-text fs-3 mb-0"><i class="fas fa-tags ms-2"></i> إدارة الفئات</h2>
-            <div>...</div>
-        </div>
-        <div class="stat-card">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>الصورة</th>
-                            <th>الاسم</th>
-                            <th>الوصف</th>
-                            <th>الإجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="categoriesTableBody">
-                        <tr><td colspan="4" class="text-center text-muted">لا توجد فئات بعد</td></tr>
-                    </tbody>
-                </table>
+    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
+    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <div class="wrapper">
+        <nav class="sidebar d-none d-lg-block">
+            <div class="nav flex-column">
+                <a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> الرئيسية</a>
+                <div class="section-title">المنتجات والفئات</div>
+                <a href="categories.html" class="nav-link active"><i class="fas fa-tags"></i> الفئات</a>
+                <!-- باقي الروابط -->
             </div>
-            <a href="add-category.html" class="btn btn-gold mt-3"><i class="fas fa-plus-circle me-2"></i>إضافة فئة جديدة</a>
-        </div>
-    </main>
+        </nav>
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-tags ms-2"></i> إدارة الفئات</h2>
+                <div>...</div>
+            </div>
+            <div class="stat-card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>الصورة</th>
+                                <th>الاسم</th>
+                                <th>الوصف</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoriesTableBody">
+                            <tr><td colspan="4" class="text-center text-muted">لا توجد فئات بعد</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="add-category.html" class="btn btn-gold mt-3"><i class="fas fa-plus-circle me-2"></i>إضافة فئة جديدة</a>
+            </div>
+        </main>
+    </div>
+    <script src="..."></script>
 </body>
 </html>
