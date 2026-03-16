@@ -3,50 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALZAK STORE - تسجيل دخول الإدمن</title>
+    <title>ALZAK STORE - إعدادات API</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
-    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <!-- شريط التنقل للجوال -->
+    <nav class="navbar navbar-dark d-lg-none py-3" style="background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,215,0,0.2);">
+        <div class="container-fluid">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
+                <i class="fas fa-bars fa-2x" style="color: #ffd700;"></i>
+            </button>
+            <span class="navbar-brand gold-text fs-4" style="font-weight: 700;">ALZAK STORE</span>
+        </div>
+    </nav>
+
+    <!-- القائمة الجانبية للجوال -->
+    <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="sidebarOffcanvas" style="background: rgba(8,10,15,0.98); backdrop-filter: blur(15px); width: 300px;">
+        <div class="offcanvas-header border-bottom" style="border-color: rgba(255,215,0,0.2) !important;">
+            <h5 class="offcanvas-title gold-text fs-3">ALZAK STORE</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <div class="nav flex-column">
+                <a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> الرئيسية</a>
+                <!-- ... باقي القائمة ... -->
+                <div class="section-title">الإدارة</div>
+                <a href="api-config.html" class="nav-link active"><i class="fas fa-key"></i> إعدادات API</a>
+                <!-- ... -->
+            </div>
+        </div>
+    </div>
+
     <div class="wrapper">
+        <!-- القائمة الجانبية للشاشات الكبيرة -->
         <nav class="sidebar d-none d-lg-block">
-            <!-- نفس القائمة الجانبية مع تعديل الـ active -->
             <div class="text-center mb-4">
                 <h3 class="gold-text fs-2">ALZAK STORE</h3>
                 <p class="text-muted small">لوحة الإدارة</p>
             </div>
             <div class="nav flex-column">
                 <a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> الرئيسية</a>
-                <!-- باقي الروابط كما هي ... -->
+                <!-- ... -->
+                <div class="section-title">الإدارة</div>
+                <a href="api-config.html" class="nav-link active"><i class="fas fa-key"></i> إعدادات API</a>
+                <!-- ... -->
             </div>
         </nav>
+
         <main class="main-content">
+            <!-- شريط API العلوي (بدون زر إعدادات API نفسه) -->
             <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4" style="background: rgba(20,22,27,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,215,0,0.2);">
-                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-user-lock ms-2"></i> تسجيل دخول الإدمن</h2>
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-key ms-2"></i> إعدادات Airtable</h2>
                 <div class="d-flex align-items-center gap-3">
+                    <a href="admin-login.html" class="btn btn-outline-gold btn-sm px-3"><i class="fas fa-user me-1"></i></a>
                     <span class="text-muted">حالة API:</span>
-                    <span class="badge" id="apiStatus">غير مهيأ</span>
-                    <a href="api-config.html" class="btn btn-outline-gold btn-sm px-4"><i class="fas fa-key me-1"></i> إعدادات API</a>
+                    <span class="badge bg-warning text-dark px-3 py-2" id="apiStatus" style="background: rgba(255,215,0,0.2) !important; color: #ffd700 !important; border: 1px solid #ffd700;">غير مهيأ</span>
                 </div>
             </div>
-            <div class="stat-card" style="max-width: 500px; margin: auto;">
-                <form id="adminLoginForm">
+
+            <div class="stat-card" style="max-width: 600px; margin: auto;">
+                <form id="apiConfigForm">
                     <div class="mb-3">
-                        <label class="form-label">اسم المستخدم</label>
-                        <input type="text" class="form-control" name="username" required>
+                        <label class="form-label">API Key</label>
+                        <input type="text" class="form-control" id="apiKeyInput" value="YOUR_API_KEY">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">كلمة المرور</label>
-                        <input type="password" class="form-control" name="password" required>
+                        <label class="form-label">Base ID</label>
+                        <input type="text" class="form-control" id="baseIdInput" value="YOUR_BASE_ID">
                     </div>
-                    <button type="button" class="btn btn-gold w-100" onclick="adminLogin()">دخول</button>
+                    <button type="button" class="btn btn-gold" onclick="saveApiConfig()">حفظ الإعدادات</button>
                 </form>
             </div>
         </main>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
