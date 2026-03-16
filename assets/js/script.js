@@ -213,3 +213,44 @@ window.onload = function() {
         });
     }
 };
+// نظام تسجيل الدخول البسيط
+let isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+
+function adminLogin() {
+    const username = document.querySelector('#adminLoginForm input[name="username"]').value;
+    const password = document.querySelector('#adminLoginForm input[name="password"]').value;
+    // هنا يمكنك التحقق من Airtable لاحقاً
+    if (username === 'admin' && password === 'admin') {
+        isLoggedIn = true;
+        localStorage.setItem('adminLoggedIn', 'true');
+        updateUIBasedOnLogin();
+        bootstrap.Modal.getInstance(document.getElementById('adminLoginModal')).hide();
+        alert('تم تسجيل الدخول بنجاح');
+    } else {
+        alert('اسم المستخدم أو كلمة المرور غير صحيحة');
+    }
+}
+
+function logout() {
+    isLoggedIn = false;
+    localStorage.removeItem('adminLoggedIn');
+    updateUIBasedOnLogin();
+    window.location.href = 'admin-login.html';
+}
+
+function updateUIBasedOnLogin() {
+    const apiConfigBtn = document.getElementById('apiConfigBtn');
+    if (apiConfigBtn) {
+        if (isLoggedIn) {
+            apiConfigBtn.style.display = 'inline-block';
+        } else {
+            apiConfigBtn.style.display = 'none';
+        }
+    }
+    // تحديث حالة API (يمكن إضافتها)
+}
+
+// استدعاء عند تحميل الصفحة
+window.addEventListener('load', function() {
+    updateUIBasedOnLogin();
+});
