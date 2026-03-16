@@ -186,3 +186,8 @@ body {
     background: #222;
     color: var(--gold);
 }
+/* إضافة تنسيق للمفاتيح */
+.form-check-input:checked {
+    background-color: var(--gold);
+    border-color: var(--gold);
+}
