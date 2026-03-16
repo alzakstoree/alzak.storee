@@ -116,18 +116,18 @@ async function loadDashboardData() {
         document.getElementById('totalCostsSYP').innerText = (costs * exchangeRate).toFixed(2) + ' ل.س';
         document.getElementById('netProfitSYP').innerText = ((sales - costs) * exchangeRate).toFixed(2) + ' ل.س';
 
-        // طلبات الشحن المعالجة (افترض جدول rechargeRequests)
+        // طلبات الشحن المعالجة
         try {
-            const recharges = await airtableFetch('rechargeRequests');
+            const recharges = await airtableFetch('recharge_requests');
             const pendingRecharge = recharges.records.filter(r => r.fields.status === 'pending').length;
             document.getElementById('pendingRecharge').innerText = pendingRecharge;
         } catch { document.getElementById('pendingRecharge').innerText = '0'; }
 
-        // المستخدمون المسموح لهم برصيد مدين (افترض حقل debt_allowed في users)
+        // المستخدمون المسموح لهم برصيد مدين
         const allowedDebt = users.records.filter(u => u.fields.debt_allowed === true).length;
         document.getElementById('allowedDebtUsers').innerText = allowedDebt;
 
-        // إجمالي المبلغ المدين (افترض حقل debt_balance)
+        // إجمالي المبلغ المدين
         let totalDebt = 0;
         users.records.forEach(u => totalDebt += (u.fields.debt_balance || 0));
         document.getElementById('totalDebt').innerText = '$' + totalDebt.toFixed(2);
@@ -142,7 +142,7 @@ async function loadDashboardData() {
         }).length;
         document.getElementById('ordersThisMonth').innerText = ordersThisMonth;
 
-        // تحديث نطاق التاريخ في البطاقة
+        // تحديث نطاق التاريخ
         const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
         document.getElementById('ordersDateRange').innerText = 
             `${endOfMonth.toLocaleDateString('ar-EG', options)} – ${startOfMonth.toLocaleDateString('ar-EG', options)}`;
@@ -153,7 +153,6 @@ async function loadDashboardData() {
     }
 }
 
-// وظيفة إضافة منتج (مثال)
 async function addProduct() {
     const form = document.getElementById('addProductForm');
     const data = new FormData(form);
@@ -169,12 +168,10 @@ async function addProduct() {
     } catch (e) { alert('خطأ: ' + e.message); }
 }
 
-// وظيفة إرسال إشعار (مثال)
 function sendNotification() {
     alert('وظيفة إرسال الإشعارات قيد التطوير');
 }
 
-// رسم بياني للأرباح (إذا أردت إضافته لاحقاً)
 function initProfitChart() {
     const ctx = document.getElementById('profitChart');
     if (!ctx) return;
@@ -200,7 +197,6 @@ function initProfitChart() {
     });
 }
 
-// تشغيل عند تحميل الصفحة
 window.onload = function() {
     loadApiConfig();
     initProfitChart();
@@ -208,15 +204,12 @@ window.onload = function() {
         loadDashboardData();
     }
 
-    // التعامل مع مفتاح وضع الصيانة (تخزين الحالة)
     const maintenanceSwitch = document.getElementById('maintenanceMode');
     if (maintenanceSwitch) {
-        // قراءة الحالة المحفوظة
         const saved = localStorage.getItem('maintenanceMode') === 'true';
         maintenanceSwitch.checked = saved;
         maintenanceSwitch.addEventListener('change', function() {
             localStorage.setItem('maintenanceMode', this.checked);
-            // هنا يمكن إرسال الحالة إلى Airtable أو أي مكان
         });
     }
 };
