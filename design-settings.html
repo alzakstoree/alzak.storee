@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>...</head>
+<body>
+    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
+    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <div class="wrapper">
+        <nav class="sidebar d-none d-lg-block">
+            <div class="nav flex-column">
+                <div class="section-title">الإدارة</div>
+                <a href="notifications.html" class="nav-link"><i class="fas fa-bell"></i> إرسال إشعار</a>
+                <a href="design-settings.html" class="nav-link active"><i class="fas fa-paint-brush"></i> إعدادات التصميم</a>
+                <a href="order-messages.html" class="nav-link"><i class="fas fa-envelope"></i> رسائل الطلبات</a>
+                <a href="layout.html" class="nav-link"><i class="fas fa-layer-group"></i> إدارة التخطيط</a>
+                <a href="social-media.html" class="nav-link"><i class="fas fa-share-alt"></i> روابط التواصل</a>
+                <a href="admin-accounts.html" class="nav-link"><i class="fas fa-user-shield"></i> حسابات الإدارة</a>
+                <a href="two-factor.html" class="nav-link"><i class="fas fa-lock"></i> المصادقة الثنائية</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-paint-brush ms-2"></i> إعدادات التصميم</h2>
+                <div>...</div>
+            </div>
+            <div class="stat-card">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">رابط الشعار (URL)</label>
+                        <input type="url" class="form-control" id="logoUrl" placeholder="https://example.com/logo.png">
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label class="form-label">عرض الشعار</label>
+                            <input type="number" class="form-control" id="logoWidth" value="150">
+                        </div>
+                        <div class="col mb-3">
+                            <label class="form-label">ارتفاع الشعار</label>
+                            <input type="number" class="form-control" id="logoHeight" value="50">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">اللون الأساسي</label>
+                        <input type="color" class="form-control form-control-color" id="primaryColor" value="#ffd700">
+                    </div>
+                    <button type="button" class="btn btn-gold" onclick="saveDesignSettings()">حفظ الإعدادات</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="..."></script>
+</body>
+</html>
