@@ -2,29 +2,53 @@
 <html lang="ar" dir="rtl">
 <head>...</head>
 <body>
-    <main class="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
-            <h2 class="gold-text fs-3 mb-0"><i class="fas fa-plus-circle ms-2"></i> إضافة فئة جديدة</h2>
-            <div>...</div>
-        </div>
-        <div class="stat-card">
-            <form id="addCategoryForm">
-                <div class="mb-3">
-                    <label class="form-label">اسم الفئة</label>
-                    <input type="text" class="form-control" name="name" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">الوصف</label>
-                    <textarea class="form-control" name="description" rows="2"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">رابط الصورة</label>
-                    <input type="url" class="form-control" name="image_url" placeholder="https://example.com/image.jpg">
-                </div>
-                <button type="button" class="btn btn-gold" onclick="addCategory()">حفظ الفئة</button>
-                <a href="categories.html" class="btn btn-outline-gold">إلغاء</a>
-            </form>
-        </div>
-    </main>
+    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
+    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <div class="wrapper">
+        <nav class="sidebar d-none d-lg-block">
+            <div class="nav flex-column">
+                <a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> الرئيسية</a>
+                <div class="section-title">المنتجات والفئات</div>
+                <a href="categories.html" class="nav-link"><i class="fas fa-tags"></i> الفئات</a>
+                <a href="add-category.html" class="nav-link active"><i class="fas fa-plus-circle"></i> إضافة فئة</a>
+                <!-- باقي الروابط -->
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-plus-circle ms-2"></i> إضافة فئة جديدة</h2>
+                <div>...</div>
+            </div>
+            <div class="stat-card">
+                <form id="addCategoryForm">
+                    <div class="mb-3">
+                        <label class="form-label">اسم الفئة</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">الوصف</label>
+                        <textarea class="form-control" name="description" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">رابط الصورة</label>
+                        <input type="url" class="form-control" name="image_url" placeholder="https://example.com/image.jpg">
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label class="form-label">عرض الصورة (بكسل)</label>
+                            <input type="number" class="form-control" name="image_width" value="300">
+                        </div>
+                        <div class="col mb-3">
+                            <label class="form-label">ارتفاع الصورة (بكسل)</label>
+                            <input type="number" class="form-control" name="image_height" value="300">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-gold" onclick="addCategory()">حفظ الفئة</button>
+                    <a href="categories.html" class="btn btn-outline-gold">إلغاء</a>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="..."></script>
 </body>
 </html>
