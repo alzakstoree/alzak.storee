@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>...</head>
+<body>
+    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
+    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <div class="wrapper">
+        <nav class="sidebar d-none d-lg-block">
+            <div class="nav flex-column">
+                <div class="section-title">الإدارة</div>
+                <a href="notifications.html" class="nav-link active"><i class="fas fa-bell"></i> إرسال إشعار</a>
+                <a href="design-settings.html" class="nav-link"><i class="fas fa-paint-brush"></i> إعدادات التصميم</a>
+                <a href="order-messages.html" class="nav-link"><i class="fas fa-envelope"></i> رسائل الطلبات</a>
+                <a href="layout.html" class="nav-link"><i class="fas fa-layer-group"></i> إدارة التخطيط</a>
+                <a href="social-media.html" class="nav-link"><i class="fas fa-share-alt"></i> روابط التواصل</a>
+                <a href="admin-accounts.html" class="nav-link"><i class="fas fa-user-shield"></i> حسابات الإدارة</a>
+                <a href="two-factor.html" class="nav-link"><i class="fas fa-lock"></i> المصادقة الثنائية</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-bell ms-2"></i> إرسال إشعار</h2>
+                <div>...</div>
+            </div>
+            <div class="stat-card">
+                <form id="notificationForm">
+                    <div class="mb-3">
+                        <label class="form-label">المستلمون</label>
+                        <select class="form-select" name="target">
+                            <option value="all">جميع المستخدمين</option>
+                            <option value="vip">أعضاء VIP</option>
+                            <option value="specific">مستخدم محدد</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">عنوان الإشعار</label>
+                        <input type="text" class="form-control" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">الرسالة</label>
+                        <textarea class="form-control" name="message" rows="3" required></textarea>
+                    </div>
+                    <button type="button" class="btn btn-gold" onclick="sendNotification()">إرسال</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="..."></script>
+</body>
+</html>
