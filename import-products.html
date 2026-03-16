@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>...</head>
+<body>
+    <nav class="navbar navbar-dark d-lg-none py-3">...</nav>
+    <div class="offcanvas offcanvas-start d-lg-none" id="sidebarOffcanvas">...</div>
+    <div class="wrapper">
+        <nav class="sidebar d-none d-lg-block">
+            <div class="nav flex-column">
+                <div class="section-title">الموردين و API</div>
+                <a href="suppliers.html" class="nav-link"><i class="fas fa-truck"></i> إدارة الموردين</a>
+                <a href="import-products.html" class="nav-link active"><i class="fas fa-file-import"></i> استيراد منتجات</a>
+                <a href="api-clients.html" class="nav-link"><i class="fas fa-code"></i> عملاء API</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 py-3 px-4 rounded-4">
+                <h2 class="gold-text fs-3 mb-0"><i class="fas fa-file-import ms-2"></i> استيراد منتجات</h2>
+                <div>...</div>
+            </div>
+            <div class="stat-card">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">اختر المورد</label>
+                        <select class="form-select" id="supplierSelect">
+                            <option>مورد 1</option>
+                            <option>مورد 2</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">رابط API للاستيراد</label>
+                        <input type="url" class="form-control" id="importApiUrl">
+                    </div>
+                    <button type="button" class="btn btn-gold" onclick="importProducts()">بدء الاستيراد</button>
+                </form>
+                <div class="mt-4" id="importResult"></div>
+            </div>
+        </main>
+    </div>
+    <script src="..."></script>
+</body>
+</html>
