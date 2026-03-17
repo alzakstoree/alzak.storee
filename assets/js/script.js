@@ -7,27 +7,27 @@ const AIRTABLE_CONFIG = {
 // ==================== دوال API ====================
 function updateApiStatus() {
     const statusEl = document.getElementById('apiStatus');
-    if (AIRTABLE_CONFIG.API_KEY !== 'YOUR_API_KEY' && AIRTABLE_CONFIG.BASE_ID !== 'YOUR_BASE_ID') {
-        statusEl.innerHTML = 'متصل (مهيأ)';
-        statusEl.className = 'badge bg-success';
-    } else {
-        statusEl.innerHTML = 'غير مهيأ';
-        statusEl.className = 'badge bg-warning text-dark';
+    if (statusEl) {
+        if (AIRTABLE_CONFIG.API_KEY !== 'YOUR_API_KEY' && AIRTABLE_CONFIG.BASE_ID !== 'YOUR_BASE_ID') {
+            statusEl.innerHTML = 'متصل (مهيأ)';
+            statusEl.className = 'badge bg-success';
+        } else {
+            statusEl.innerHTML = 'غير مهيأ';
+            statusEl.className = 'badge bg-warning text-dark';
+        }
     }
 }
 
 function saveApiConfig() {
-    const newKey = document.getElementById('apiKeyInput').value;
-    const newBase = document.getElementById('baseIdInput').value;
+    const newKey = document.getElementById('apiKeyInput')?.value;
+    const newBase = document.getElementById('baseIdInput')?.value;
     if (newKey && newBase) {
         AIRTABLE_CONFIG.API_KEY = newKey;
         AIRTABLE_CONFIG.BASE_ID = newBase;
         updateApiStatus();
-        // إخفاء المودال إن وجد
-        const modal = document.getElementById('apiConfigModal');
-        if (modal) bootstrap.Modal.getInstance(modal)?.hide();
         localStorage.setItem('airtable_api_key', newKey);
         localStorage.setItem('airtable_base_id', newBase);
+        alert('تم حفظ الإعدادات');
         loadDashboardData();
     } else {
         alert('أدخل القيم');
@@ -78,55 +78,58 @@ function showLoadingIndicators() {
 }
 
 async function loadDashboardData() {
+    // فقط إذا كنا في الصفحة الرئيسية
+    if (!document.getElementById('totalOrders')) return;
+    
     showLoadingIndicators();
     if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY' || AIRTABLE_CONFIG.BASE_ID === 'YOUR_BASE_ID') return;
 
     try {
         const orders = await airtableFetch('orders');
         const ordersList = orders.records;
-        document.getElementById('totalOrders').innerText = ordersList.length;
+        setElementText('totalOrders', ordersList.length);
 
         const products = await airtableFetch('products');
         const activeProducts = products.records.filter(p => p.fields.status === 'active').length;
-        document.getElementById('activeProducts').innerText = activeProducts;
+        setElementText('activeProducts', activeProducts);
 
         const users = await airtableFetch('users');
-        document.getElementById('totalUsers').innerText = users.records.length;
+        setElementText('totalUsers', users.records.length);
 
         let totalBal = 0;
         users.records.forEach(u => totalBal += (u.fields.balance || 0));
-        document.getElementById('totalBalances').innerText = '$' + totalBal.toFixed(2);
+        setElementText('totalBalances', '$' + totalBal.toFixed(2));
 
         const pending = ordersList.filter(o => o.fields.status === 'pending').length;
-        document.getElementById('pendingOrders').innerText = pending;
+        setElementText('pendingOrders', pending);
 
         let sales = 0, costs = 0;
         ordersList.forEach(o => {
             sales += (o.fields.price || 0);
             costs += (o.fields.cost || 0);
         });
-        document.getElementById('totalSales').innerText = '$' + sales.toFixed(4);
-        document.getElementById('totalCosts').innerText = '$' + costs.toFixed(4);
-        document.getElementById('netProfit').innerText = '$' + (sales - costs).toFixed(4);
+        setElementText('totalSales', '$' + sales.toFixed(4));
+        setElementText('totalCosts', '$' + costs.toFixed(4));
+        setElementText('netProfit', '$' + (sales - costs).toFixed(4));
 
         const exchangeRate = 15000;
-        document.getElementById('totalDebtSYP').innerText = (0).toFixed(2) + ' ل.س';
-        document.getElementById('totalSalesSYP').innerText = (sales * exchangeRate).toFixed(2) + ' ل.س';
-        document.getElementById('totalCostsSYP').innerText = (costs * exchangeRate).toFixed(2) + ' ل.س';
-        document.getElementById('netProfitSYP').innerText = ((sales - costs) * exchangeRate).toFixed(2) + ' ل.س';
+        setElementText('totalDebtSYP', (0).toFixed(2) + ' ل.س');
+        setElementText('totalSalesSYP', (sales * exchangeRate).toFixed(2) + ' ل.س');
+        setElementText('totalCostsSYP', (costs * exchangeRate).toFixed(2) + ' ل.س');
+        setElementText('netProfitSYP', ((sales - costs) * exchangeRate).toFixed(2) + ' ل.س');
 
         try {
             const recharges = await airtableFetch('recharge_requests');
             const pendingRecharge = recharges.records.filter(r => r.fields.status === 'pending').length;
-            document.getElementById('pendingRecharge').innerText = pendingRecharge;
-        } catch { document.getElementById('pendingRecharge').innerText = '0'; }
+            setElementText('pendingRecharge', pendingRecharge);
+        } catch { setElementText('pendingRecharge', '0'); }
 
         const allowedDebt = users.records.filter(u => u.fields.debt_allowed === true).length;
-        document.getElementById('allowedDebtUsers').innerText = allowedDebt;
+        setElementText('allowedDebtUsers', allowedDebt);
 
         let totalDebt = 0;
         users.records.forEach(u => totalDebt += (u.fields.debt_balance || 0));
-        document.getElementById('totalDebt').innerText = '$' + totalDebt.toFixed(2);
+        setElementText('totalDebt', '$' + totalDebt.toFixed(2));
 
         const now = new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -135,11 +138,10 @@ async function loadDashboardData() {
             const date = new Date(o.fields.date);
             return date >= startOfMonth && date <= endOfMonth;
         }).length;
-        document.getElementById('ordersThisMonth').innerText = ordersThisMonth;
+        setElementText('ordersThisMonth', ordersThisMonth);
 
         const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-        document.getElementById('ordersDateRange').innerText = 
-            `${endOfMonth.toLocaleDateString('ar-EG', options)} – ${startOfMonth.toLocaleDateString('ar-EG', options)}`;
+        setElementText('ordersDateRange', `${endOfMonth.toLocaleDateString('ar-EG', options)} – ${startOfMonth.toLocaleDateString('ar-EG', options)}`);
 
     } catch (error) {
         console.error(error);
@@ -147,29 +149,9 @@ async function loadDashboardData() {
     }
 }
 
-function initProfitChart() {
-    const ctx = document.getElementById('profitChart');
-    if (!ctx) return;
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'],
-            datasets: [{
-                label: 'صافي الربح ($)',
-                data: [1200, 1900, 1500, 2200, 1800, 2400, 2100],
-                borderColor: '#ffb347',
-                backgroundColor: 'rgba(255,180,71,0.1)',
-                tension: 0.3,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: '#e0e0e0' } } },
-            scales: { y: { ticks: { color: '#aaa' } }, x: { ticks: { color: '#aaa' } } }
-        }
-    });
+function setElementText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.innerText = text;
 }
 
 // ==================== دوال تسجيل الدخول ====================
@@ -204,7 +186,7 @@ function updateUIBasedOnLogin() {
     }
 }
 
-// ==================== دوال الإضافة والتعديل (مرتبطة بـ Airtable) ====================
+// ==================== دوال الإضافة والتعديل ====================
 async function addProduct() {
     const form = document.getElementById('addProductForm');
     if (!form) return alert('النموذج غير موجود');
@@ -215,7 +197,6 @@ async function addProduct() {
     try {
         await airtableFetch('products', { method: 'POST', body: JSON.stringify({ fields: product }) });
         alert('تمت الإضافة');
-        // العودة إلى صفحة الإدارة
         window.location.href = 'manage-products.html';
     } catch (e) { alert('خطأ: ' + e.message); }
 }
@@ -226,7 +207,7 @@ async function updateProduct() {
     const data = new FormData(form);
     const product = {};
     data.forEach((v, k) => product[k] = v);
-    const id = product.id; // يجب أن يكون هناك حقل مخفي يحمل id
+    const id = product.id;
     delete product.id;
     if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
     try {
@@ -278,52 +259,33 @@ async function addSupplier() {
     } catch (e) { alert('خطأ: ' + e.message); }
 }
 
+// ==================== دوال الحفظ الأخرى (محاكاة) ====================
 function sendNotification() {
-    const title = document.getElementById('notificationTitle')?.value;
-    const message = document.getElementById('notificationMessage')?.value;
-    const target = document.getElementById('notificationTarget')?.value;
-    alert(`تم إرسال الإشعار إلى ${target} (محاكاة)`);
-    // يمكن ربطه بـ Airtable لاحقاً
+    alert('تم إرسال الإشعار (محاكاة)');
 }
 
 function saveOrderMessages() {
-    const confirmMsg = document.getElementById('orderConfirmMsg')?.value;
-    const shippedMsg = document.getElementById('orderShippedMsg')?.value;
-    const cancelMsg = document.getElementById('orderCancelMsg')?.value;
     alert('تم حفظ رسائل الطلبات (محاكاة)');
-    // يمكن ربطه بـ Airtable عبر جدول settings
 }
 
 function saveExchangeRates() {
-    const exchangeRate = document.getElementById('exchangeRate')?.value;
-    const eurRate = document.getElementById('eurRate')?.value;
     alert('تم حفظ أسعار الصرف (محاكاة)');
 }
 
 function saveReferralSettings() {
-    const bonus = document.getElementById('referralBonus')?.value;
     alert('تم حفظ إعدادات الإحالة (محاكاة)');
 }
 
 function saveDesignSettings() {
-    const logoUrl = document.getElementById('logoUrl')?.value;
-    const logoWidth = document.getElementById('logoWidth')?.value;
-    const logoHeight = document.getElementById('logoHeight')?.value;
-    const primaryColor = document.getElementById('primaryColor')?.value;
     alert('تم حفظ إعدادات التصميم (محاكاة)');
 }
 
 function saveSocialLinks() {
-    const fb = document.getElementById('facebookUrl')?.value;
-    const tw = document.getElementById('twitterUrl')?.value;
-    const ig = document.getElementById('instagramUrl')?.value;
-    const wa = document.getElementById('whatsappUrl')?.value;
     alert('تم حفظ روابط التواصل (محاكاة)');
 }
 
 function saveTwoFactorSettings() {
-    const enabled = document.getElementById('twoFactorToggle')?.checked;
-    alert(`تم ${enabled ? 'تفعيل' : 'تعطيل'} المصادقة الثنائية (محاكاة)`);
+    alert('تم حفظ إعدادات المصادقة الثنائية (محاكاة)');
 }
 
 function saveLayoutOrder() {
@@ -331,9 +293,7 @@ function saveLayoutOrder() {
 }
 
 function importProducts() {
-    const supplier = document.getElementById('supplierSelect')?.value;
-    const apiUrl = document.getElementById('importApiUrl')?.value;
-    document.getElementById('importResult').innerHTML = '<div class="alert alert-success">تم استيراد المنتجات بنجاح (محاكاة)</div>';
+    alert('تم استيراد المنتجات (محاكاة)');
 }
 
 function createApiKey() {
@@ -355,7 +315,18 @@ function generateCard() {
 // ==================== تهيئة الصفحة ====================
 window.onload = function() {
     loadApiConfig();
-    initProfitChart();
+    
+    // فقط إذا كان هناك رسم بياني في الصفحة
+    if (document.getElementById('profitChart')) {
+        // تحميل Chart.js ديناميكياً فقط عند الحاجة
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+        script.onload = function() {
+            initProfitChart();
+        };
+        document.head.appendChild(script);
+    }
+
     if (AIRTABLE_CONFIG.API_KEY !== 'YOUR_API_KEY' && AIRTABLE_CONFIG.BASE_ID !== 'YOUR_BASE_ID') {
         loadDashboardData();
     }
@@ -371,3 +342,29 @@ window.onload = function() {
 
     updateUIBasedOnLogin();
 };
+
+// دالة الرسم البياني (تُستدعى بعد تحميل Chart.js)
+function initProfitChart() {
+    const ctx = document.getElementById('profitChart');
+    if (!ctx || typeof Chart === 'undefined') return;
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'],
+            datasets: [{
+                label: 'صافي الربح ($)',
+                data: [1200, 1900, 1500, 2200, 1800, 2400, 2100],
+                borderColor: '#ffb347',
+                backgroundColor: 'rgba(255,180,71,0.1)',
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#e0e0e0' } } },
+            scales: { y: { ticks: { color: '#aaa' } }, x: { ticks: { color: '#aaa' } } }
+        }
+    });
+}
