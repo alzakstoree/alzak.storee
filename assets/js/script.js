@@ -4,6 +4,7 @@ const AIRTABLE_CONFIG = {
     API_URL: 'https://api.airtable.com/v0/'
 };
 
+// ==================== دوال API ====================
 function updateApiStatus() {
     const statusEl = document.getElementById('apiStatus');
     if (AIRTABLE_CONFIG.API_KEY !== 'YOUR_API_KEY' && AIRTABLE_CONFIG.BASE_ID !== 'YOUR_BASE_ID') {
@@ -22,7 +23,9 @@ function saveApiConfig() {
         AIRTABLE_CONFIG.API_KEY = newKey;
         AIRTABLE_CONFIG.BASE_ID = newBase;
         updateApiStatus();
-        bootstrap.Modal.getInstance(document.getElementById('apiConfigModal')).hide();
+        // إخفاء المودال إن وجد
+        const modal = document.getElementById('apiConfigModal');
+        if (modal) bootstrap.Modal.getInstance(modal)?.hide();
         localStorage.setItem('airtable_api_key', newKey);
         localStorage.setItem('airtable_base_id', newBase);
         loadDashboardData();
@@ -37,8 +40,10 @@ function loadApiConfig() {
     if (savedKey && savedBase) {
         AIRTABLE_CONFIG.API_KEY = savedKey;
         AIRTABLE_CONFIG.BASE_ID = savedBase;
-        document.getElementById('apiKeyInput').value = savedKey;
-        document.getElementById('baseIdInput').value = savedBase;
+        const keyInput = document.getElementById('apiKeyInput');
+        const baseInput = document.getElementById('baseIdInput');
+        if (keyInput) keyInput.value = savedKey;
+        if (baseInput) baseInput.value = savedBase;
     }
     updateApiStatus();
 }
@@ -59,6 +64,7 @@ async function airtableFetch(tableName, options = {}) {
     }
 }
 
+// ==================== دوال تحميل البيانات للوحة الرئيسية ====================
 function showLoadingIndicators() {
     const ids = [
         'totalDebt', 'ordersThisMonth', 'totalSales', 'totalCosts', 'netProfit',
@@ -76,30 +82,24 @@ async function loadDashboardData() {
     if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY' || AIRTABLE_CONFIG.BASE_ID === 'YOUR_BASE_ID') return;
 
     try {
-        // جلب الطلبات
         const orders = await airtableFetch('orders');
         const ordersList = orders.records;
         document.getElementById('totalOrders').innerText = ordersList.length;
 
-        // جلب المنتجات
         const products = await airtableFetch('products');
         const activeProducts = products.records.filter(p => p.fields.status === 'active').length;
         document.getElementById('activeProducts').innerText = activeProducts;
 
-        // جلب المستخدمين
         const users = await airtableFetch('users');
         document.getElementById('totalUsers').innerText = users.records.length;
 
-        // إجمالي رصيد المستخدمين
         let totalBal = 0;
         users.records.forEach(u => totalBal += (u.fields.balance || 0));
         document.getElementById('totalBalances').innerText = '$' + totalBal.toFixed(2);
 
-        // طلبات معلقة
         const pending = ordersList.filter(o => o.fields.status === 'pending').length;
         document.getElementById('pendingOrders').innerText = pending;
 
-        // إجمالي المبيعات والتكاليف والأرباح
         let sales = 0, costs = 0;
         ordersList.forEach(o => {
             sales += (o.fields.price || 0);
@@ -109,30 +109,25 @@ async function loadDashboardData() {
         document.getElementById('totalCosts').innerText = '$' + costs.toFixed(4);
         document.getElementById('netProfit').innerText = '$' + (sales - costs).toFixed(4);
 
-        // تحويل لليرة (سعر صرف افتراضي)
-        const exchangeRate = 15000; // يمكن جعله ديناميكياً
-        document.getElementById('totalDebtSYP').innerText = (0).toFixed(2) + ' ل.س'; // سيتم تحديثه لاحقاً
+        const exchangeRate = 15000;
+        document.getElementById('totalDebtSYP').innerText = (0).toFixed(2) + ' ل.س';
         document.getElementById('totalSalesSYP').innerText = (sales * exchangeRate).toFixed(2) + ' ل.س';
         document.getElementById('totalCostsSYP').innerText = (costs * exchangeRate).toFixed(2) + ' ل.س';
         document.getElementById('netProfitSYP').innerText = ((sales - costs) * exchangeRate).toFixed(2) + ' ل.س';
 
-        // طلبات الشحن المعالجة
         try {
             const recharges = await airtableFetch('recharge_requests');
             const pendingRecharge = recharges.records.filter(r => r.fields.status === 'pending').length;
             document.getElementById('pendingRecharge').innerText = pendingRecharge;
         } catch { document.getElementById('pendingRecharge').innerText = '0'; }
 
-        // المستخدمون المسموح لهم برصيد مدين
         const allowedDebt = users.records.filter(u => u.fields.debt_allowed === true).length;
         document.getElementById('allowedDebtUsers').innerText = allowedDebt;
 
-        // إجمالي المبلغ المدين
         let totalDebt = 0;
         users.records.forEach(u => totalDebt += (u.fields.debt_balance || 0));
         document.getElementById('totalDebt').innerText = '$' + totalDebt.toFixed(2);
 
-        // عدد الطلبات هذا الشهر
         const now = new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
         const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
@@ -142,7 +137,6 @@ async function loadDashboardData() {
         }).length;
         document.getElementById('ordersThisMonth').innerText = ordersThisMonth;
 
-        // تحديث نطاق التاريخ
         const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
         document.getElementById('ordersDateRange').innerText = 
             `${endOfMonth.toLocaleDateString('ar-EG', options)} – ${startOfMonth.toLocaleDateString('ar-EG', options)}`;
@@ -151,25 +145,6 @@ async function loadDashboardData() {
         console.error(error);
         alert('فشل تحميل البيانات. تحقق من API والإعدادات.');
     }
-}
-
-async function addProduct() {
-    const form = document.getElementById('addProductForm');
-    const data = new FormData(form);
-    const product = {};
-    data.forEach((v, k) => product[k] = v);
-    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
-    try {
-        await airtableFetch('products', { method: 'POST', body: JSON.stringify({ fields: product }) });
-        alert('تمت الإضافة');
-        bootstrap.Modal.getInstance(document.getElementById('addProductModal')).hide();
-        form.reset();
-        loadDashboardData();
-    } catch (e) { alert('خطأ: ' + e.message); }
-}
-
-function sendNotification() {
-    alert('وظيفة إرسال الإشعارات قيد التطوير');
 }
 
 function initProfitChart() {
@@ -197,34 +172,18 @@ function initProfitChart() {
     });
 }
 
-window.onload = function() {
-    loadApiConfig();
-    initProfitChart();
-    if (AIRTABLE_CONFIG.API_KEY !== 'YOUR_API_KEY' && AIRTABLE_CONFIG.BASE_ID !== 'YOUR_BASE_ID') {
-        loadDashboardData();
-    }
-
-    const maintenanceSwitch = document.getElementById('maintenanceMode');
-    if (maintenanceSwitch) {
-        const saved = localStorage.getItem('maintenanceMode') === 'true';
-        maintenanceSwitch.checked = saved;
-        maintenanceSwitch.addEventListener('change', function() {
-            localStorage.setItem('maintenanceMode', this.checked);
-        });
-    }
-};
-// نظام تسجيل الدخول البسيط
+// ==================== دوال تسجيل الدخول ====================
 let isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
 
 function adminLogin() {
-    const username = document.querySelector('#adminLoginForm input[name="username"]').value;
-    const password = document.querySelector('#adminLoginForm input[name="password"]').value;
-    // هنا يمكنك التحقق من Airtable لاحقاً
+    const username = document.querySelector('#adminLoginForm input[name="username"]')?.value;
+    const password = document.querySelector('#adminLoginForm input[name="password"]')?.value;
     if (username === 'admin' && password === 'admin') {
         isLoggedIn = true;
         localStorage.setItem('adminLoggedIn', 'true');
         updateUIBasedOnLogin();
-        bootstrap.Modal.getInstance(document.getElementById('adminLoginModal')).hide();
+        const modal = document.getElementById('adminLoginModal');
+        if (modal) bootstrap.Modal.getInstance(modal)?.hide();
         alert('تم تسجيل الدخول بنجاح');
     } else {
         alert('اسم المستخدم أو كلمة المرور غير صحيحة');
@@ -241,16 +200,174 @@ function logout() {
 function updateUIBasedOnLogin() {
     const apiConfigBtn = document.getElementById('apiConfigBtn');
     if (apiConfigBtn) {
-        if (isLoggedIn) {
-            apiConfigBtn.style.display = 'inline-block';
-        } else {
-            apiConfigBtn.style.display = 'none';
-        }
+        apiConfigBtn.style.display = isLoggedIn ? 'inline-block' : 'none';
     }
-    // تحديث حالة API (يمكن إضافتها)
 }
 
-// استدعاء عند تحميل الصفحة
-window.addEventListener('load', function() {
+// ==================== دوال الإضافة والتعديل (مرتبطة بـ Airtable) ====================
+async function addProduct() {
+    const form = document.getElementById('addProductForm');
+    if (!form) return alert('النموذج غير موجود');
+    const data = new FormData(form);
+    const product = {};
+    data.forEach((v, k) => product[k] = v);
+    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
+    try {
+        await airtableFetch('products', { method: 'POST', body: JSON.stringify({ fields: product }) });
+        alert('تمت الإضافة');
+        // العودة إلى صفحة الإدارة
+        window.location.href = 'manage-products.html';
+    } catch (e) { alert('خطأ: ' + e.message); }
+}
+
+async function updateProduct() {
+    const form = document.getElementById('editProductForm');
+    if (!form) return alert('النموذج غير موجود');
+    const data = new FormData(form);
+    const product = {};
+    data.forEach((v, k) => product[k] = v);
+    const id = product.id; // يجب أن يكون هناك حقل مخفي يحمل id
+    delete product.id;
+    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
+    try {
+        await airtableFetch('products/' + id, { method: 'PATCH', body: JSON.stringify({ fields: product }) });
+        alert('تم التحديث');
+        window.location.href = 'manage-products.html';
+    } catch (e) { alert('خطأ: ' + e.message); }
+}
+
+async function addCategory() {
+    const form = document.getElementById('addCategoryForm');
+    if (!form) return alert('النموذج غير موجود');
+    const data = new FormData(form);
+    const category = {};
+    data.forEach((v, k) => category[k] = v);
+    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
+    try {
+        await airtableFetch('categories', { method: 'POST', body: JSON.stringify({ fields: category }) });
+        alert('تمت الإضافة');
+        window.location.href = 'categories.html';
+    } catch (e) { alert('خطأ: ' + e.message); }
+}
+
+async function addPaymentMethod() {
+    const form = document.getElementById('addPaymentMethodForm');
+    if (!form) return alert('النموذج غير موجود');
+    const data = new FormData(form);
+    const method = {};
+    data.forEach((v, k) => method[k] = v);
+    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
+    try {
+        await airtableFetch('payment_methods', { method: 'POST', body: JSON.stringify({ fields: method }) });
+        alert('تمت الإضافة');
+        window.location.href = 'payment-methods.html';
+    } catch (e) { alert('خطأ: ' + e.message); }
+}
+
+async function addSupplier() {
+    const form = document.getElementById('addSupplierForm');
+    if (!form) return alert('النموذج غير موجود');
+    const data = new FormData(form);
+    const supplier = {};
+    data.forEach((v, k) => supplier[k] = v);
+    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
+    try {
+        await airtableFetch('suppliers', { method: 'POST', body: JSON.stringify({ fields: supplier }) });
+        alert('تمت الإضافة');
+        window.location.href = 'suppliers.html';
+    } catch (e) { alert('خطأ: ' + e.message); }
+}
+
+function sendNotification() {
+    const title = document.getElementById('notificationTitle')?.value;
+    const message = document.getElementById('notificationMessage')?.value;
+    const target = document.getElementById('notificationTarget')?.value;
+    alert(`تم إرسال الإشعار إلى ${target} (محاكاة)`);
+    // يمكن ربطه بـ Airtable لاحقاً
+}
+
+function saveOrderMessages() {
+    const confirmMsg = document.getElementById('orderConfirmMsg')?.value;
+    const shippedMsg = document.getElementById('orderShippedMsg')?.value;
+    const cancelMsg = document.getElementById('orderCancelMsg')?.value;
+    alert('تم حفظ رسائل الطلبات (محاكاة)');
+    // يمكن ربطه بـ Airtable عبر جدول settings
+}
+
+function saveExchangeRates() {
+    const exchangeRate = document.getElementById('exchangeRate')?.value;
+    const eurRate = document.getElementById('eurRate')?.value;
+    alert('تم حفظ أسعار الصرف (محاكاة)');
+}
+
+function saveReferralSettings() {
+    const bonus = document.getElementById('referralBonus')?.value;
+    alert('تم حفظ إعدادات الإحالة (محاكاة)');
+}
+
+function saveDesignSettings() {
+    const logoUrl = document.getElementById('logoUrl')?.value;
+    const logoWidth = document.getElementById('logoWidth')?.value;
+    const logoHeight = document.getElementById('logoHeight')?.value;
+    const primaryColor = document.getElementById('primaryColor')?.value;
+    alert('تم حفظ إعدادات التصميم (محاكاة)');
+}
+
+function saveSocialLinks() {
+    const fb = document.getElementById('facebookUrl')?.value;
+    const tw = document.getElementById('twitterUrl')?.value;
+    const ig = document.getElementById('instagramUrl')?.value;
+    const wa = document.getElementById('whatsappUrl')?.value;
+    alert('تم حفظ روابط التواصل (محاكاة)');
+}
+
+function saveTwoFactorSettings() {
+    const enabled = document.getElementById('twoFactorToggle')?.checked;
+    alert(`تم ${enabled ? 'تفعيل' : 'تعطيل'} المصادقة الثنائية (محاكاة)`);
+}
+
+function saveLayoutOrder() {
+    alert('تم حفظ ترتيب التخطيط (محاكاة)');
+}
+
+function importProducts() {
+    const supplier = document.getElementById('supplierSelect')?.value;
+    const apiUrl = document.getElementById('importApiUrl')?.value;
+    document.getElementById('importResult').innerHTML = '<div class="alert alert-success">تم استيراد المنتجات بنجاح (محاكاة)</div>';
+}
+
+function createApiKey() {
+    alert('تم إنشاء مفتاح API جديد (محاكاة)');
+}
+
+function openAddAgentModal() {
+    alert('فتح نموذج إضافة وكيل (قيد التطوير)');
+}
+
+function openAddAdminModal() {
+    alert('فتح نموذج إضافة مشرف (قيد التطوير)');
+}
+
+function generateCard() {
+    alert('تم إنشاء بطاقة جديدة (محاكاة)');
+}
+
+// ==================== تهيئة الصفحة ====================
+window.onload = function() {
+    loadApiConfig();
+    initProfitChart();
+    if (AIRTABLE_CONFIG.API_KEY !== 'YOUR_API_KEY' && AIRTABLE_CONFIG.BASE_ID !== 'YOUR_BASE_ID') {
+        loadDashboardData();
+    }
+
+    const maintenanceSwitch = document.getElementById('maintenanceMode');
+    if (maintenanceSwitch) {
+        const saved = localStorage.getItem('maintenanceMode') === 'true';
+        maintenanceSwitch.checked = saved;
+        maintenanceSwitch.addEventListener('change', function() {
+            localStorage.setItem('maintenanceMode', this.checked);
+        });
+    }
+
     updateUIBasedOnLogin();
-});
+};
