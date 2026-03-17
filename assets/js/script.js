@@ -4,17 +4,72 @@ const AIRTABLE_CONFIG = {
     API_URL: 'https://api.airtable.com/v0/'
 };
 
+// ==================== دوال Toast (إشعارات) ====================
+function showToast(message, type = 'success', duration = 3000) {
+    // إنشاء عنصر toast ديناميكياً
+    const toastContainer = document.getElementById('toastContainer') || (() => {
+        const container = document.createElement('div');
+        container.id = 'toastContainer';
+        container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+        container.style.zIndex = '9999';
+        document.body.appendChild(container);
+        return container;
+    })();
+
+    const toastEl = document.createElement('div');
+    toastEl.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'warning'} border-0`;
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+
+    toastEl.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">
+                ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    `;
+
+    toastContainer.appendChild(toastEl);
+    const toast = new bootstrap.Toast(toastEl, { delay: duration });
+    toast.show();
+
+    // حذف العنصر بعد الإخفاء
+    toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
+}
+
 // ==================== دوال API ====================
 function updateApiStatus() {
     const statusEl = document.getElementById('apiStatus');
+    const statusIconMobile = document.getElementById('apiStatusIconMobile');
+    const statusIcon = document.getElementById('apiStatusIcon');
+    
+    let statusText = '';
+    let statusClass = '';
+    let iconBadge = '';
+
+    if (AIRTABLE_CONFIG.API_KEY !== 'YOUR_API_KEY' && AIRTABLE_CONFIG.BASE_ID !== 'YOUR_BASE_ID') {
+        statusText = 'متصل (مهيأ)';
+        statusClass = 'badge bg-success';
+        iconBadge = '<span class="badge bg-success rounded-circle p-1" style="width: 8px; height: 8px; display: inline-block;"></span>';
+    } else {
+        statusText = 'غير مهيأ';
+        statusClass = 'badge bg-warning text-dark';
+        iconBadge = '<span class="badge bg-warning rounded-circle p-1" style="width: 8px; height: 8px; display: inline-block;"></span>';
+    }
+
     if (statusEl) {
-        if (AIRTABLE_CONFIG.API_KEY !== 'YOUR_API_KEY' && AIRTABLE_CONFIG.BASE_ID !== 'YOUR_BASE_ID') {
-            statusEl.innerHTML = 'متصل (مهيأ)';
-            statusEl.className = 'badge bg-success';
-        } else {
-            statusEl.innerHTML = 'غير مهيأ';
-            statusEl.className = 'badge bg-warning text-dark';
-        }
+        statusEl.innerHTML = statusText;
+        statusEl.className = statusClass;
+    }
+
+    // تحديث شارة الأيقونة الدائرية
+    if (statusIcon) {
+        statusIcon.innerHTML = iconBadge;
+    }
+    if (statusIconMobile) {
+        statusIconMobile.innerHTML = iconBadge;
     }
 }
 
@@ -27,10 +82,10 @@ function saveApiConfig() {
         updateApiStatus();
         localStorage.setItem('airtable_api_key', newKey);
         localStorage.setItem('airtable_base_id', newBase);
-        alert('تم حفظ الإعدادات');
+        showToast('تم حفظ الإعدادات بنجاح', 'success');
         loadDashboardData();
     } else {
-        alert('أدخل القيم');
+        showToast('الرجاء إدخال القيم', 'warning');
     }
 }
 
@@ -78,7 +133,6 @@ function showLoadingIndicators() {
 }
 
 async function loadDashboardData() {
-    // فقط إذا كنا في الصفحة الرئيسية
     if (!document.getElementById('totalOrders')) return;
     
     showLoadingIndicators();
@@ -145,7 +199,7 @@ async function loadDashboardData() {
 
     } catch (error) {
         console.error(error);
-        alert('فشل تحميل البيانات. تحقق من API والإعدادات.');
+        showToast('فشل تحميل البيانات. تحقق من API والإعدادات.', 'error');
     }
 }
 
@@ -166,9 +220,9 @@ function adminLogin() {
         updateUIBasedOnLogin();
         const modal = document.getElementById('adminLoginModal');
         if (modal) bootstrap.Modal.getInstance(modal)?.hide();
-        alert('تم تسجيل الدخول بنجاح');
+        showToast('تم تسجيل الدخول بنجاح', 'success');
     } else {
-        alert('اسم المستخدم أو كلمة المرور غير صحيحة');
+        showToast('اسم المستخدم أو كلمة المرور غير صحيحة', 'error');
     }
 }
 
@@ -176,6 +230,7 @@ function logout() {
     isLoggedIn = false;
     localStorage.removeItem('adminLoggedIn');
     updateUIBasedOnLogin();
+    showToast('تم تسجيل الخروج', 'success');
     window.location.href = 'admin-login.html';
 }
 
@@ -189,136 +244,134 @@ function updateUIBasedOnLogin() {
 // ==================== دوال الإضافة والتعديل ====================
 async function addProduct() {
     const form = document.getElementById('addProductForm');
-    if (!form) return alert('النموذج غير موجود');
+    if (!form) return showToast('النموذج غير موجود', 'error');
     const data = new FormData(form);
     const product = {};
     data.forEach((v, k) => product[k] = v);
-    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
+    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { showToast('أدخل مفاتيح API أولاً', 'warning'); return; }
     try {
         await airtableFetch('products', { method: 'POST', body: JSON.stringify({ fields: product }) });
-        alert('تمت الإضافة');
+        showToast('تمت إضافة المنتج بنجاح', 'success');
         window.location.href = 'manage-products.html';
-    } catch (e) { alert('خطأ: ' + e.message); }
+    } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
 }
 
 async function updateProduct() {
     const form = document.getElementById('editProductForm');
-    if (!form) return alert('النموذج غير موجود');
+    if (!form) return showToast('النموذج غير موجود', 'error');
     const data = new FormData(form);
     const product = {};
     data.forEach((v, k) => product[k] = v);
     const id = product.id;
     delete product.id;
-    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
+    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { showToast('أدخل مفاتيح API أولاً', 'warning'); return; }
     try {
         await airtableFetch('products/' + id, { method: 'PATCH', body: JSON.stringify({ fields: product }) });
-        alert('تم التحديث');
+        showToast('تم تحديث المنتج بنجاح', 'success');
         window.location.href = 'manage-products.html';
-    } catch (e) { alert('خطأ: ' + e.message); }
+    } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
 }
 
 async function addCategory() {
     const form = document.getElementById('addCategoryForm');
-    if (!form) return alert('النموذج غير موجود');
+    if (!form) return showToast('النموذج غير موجود', 'error');
     const data = new FormData(form);
     const category = {};
     data.forEach((v, k) => category[k] = v);
-    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
+    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { showToast('أدخل مفاتيح API أولاً', 'warning'); return; }
     try {
         await airtableFetch('categories', { method: 'POST', body: JSON.stringify({ fields: category }) });
-        alert('تمت الإضافة');
+        showToast('تمت إضافة الفئة بنجاح', 'success');
         window.location.href = 'categories.html';
-    } catch (e) { alert('خطأ: ' + e.message); }
+    } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
 }
 
 async function addPaymentMethod() {
     const form = document.getElementById('addPaymentMethodForm');
-    if (!form) return alert('النموذج غير موجود');
+    if (!form) return showToast('النموذج غير موجود', 'error');
     const data = new FormData(form);
     const method = {};
     data.forEach((v, k) => method[k] = v);
-    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
+    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { showToast('أدخل مفاتيح API أولاً', 'warning'); return; }
     try {
         await airtableFetch('payment_methods', { method: 'POST', body: JSON.stringify({ fields: method }) });
-        alert('تمت الإضافة');
+        showToast('تمت إضافة طريقة الدفع بنجاح', 'success');
         window.location.href = 'payment-methods.html';
-    } catch (e) { alert('خطأ: ' + e.message); }
+    } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
 }
 
 async function addSupplier() {
     const form = document.getElementById('addSupplierForm');
-    if (!form) return alert('النموذج غير موجود');
+    if (!form) return showToast('النموذج غير موجود', 'error');
     const data = new FormData(form);
     const supplier = {};
     data.forEach((v, k) => supplier[k] = v);
-    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { alert('أدخل مفاتيح API أولاً'); return; }
+    if (AIRTABLE_CONFIG.API_KEY === 'YOUR_API_KEY') { showToast('أدخل مفاتيح API أولاً', 'warning'); return; }
     try {
         await airtableFetch('suppliers', { method: 'POST', body: JSON.stringify({ fields: supplier }) });
-        alert('تمت الإضافة');
+        showToast('تمت إضافة المورد بنجاح', 'success');
         window.location.href = 'suppliers.html';
-    } catch (e) { alert('خطأ: ' + e.message); }
+    } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
 }
 
-// ==================== دوال الحفظ الأخرى (محاكاة) ====================
+// ==================== دوال الحفظ الأخرى (محاكاة) مع Toast ====================
 function sendNotification() {
-    alert('تم إرسال الإشعار (محاكاة)');
+    showToast('تم إرسال الإشعار (محاكاة)', 'success');
 }
 
 function saveOrderMessages() {
-    alert('تم حفظ رسائل الطلبات (محاكاة)');
+    showToast('تم حفظ رسائل الطلبات (محاكاة)', 'success');
 }
 
 function saveExchangeRates() {
-    alert('تم حفظ أسعار الصرف (محاكاة)');
+    showToast('تم حفظ أسعار الصرف (محاكاة)', 'success');
 }
 
 function saveReferralSettings() {
-    alert('تم حفظ إعدادات الإحالة (محاكاة)');
+    showToast('تم حفظ إعدادات الإحالة (محاكاة)', 'success');
 }
 
 function saveDesignSettings() {
-    alert('تم حفظ إعدادات التصميم (محاكاة)');
+    showToast('تم حفظ إعدادات التصميم (محاكاة)', 'success');
 }
 
 function saveSocialLinks() {
-    alert('تم حفظ روابط التواصل (محاكاة)');
+    showToast('تم حفظ روابط التواصل (محاكاة)', 'success');
 }
 
 function saveTwoFactorSettings() {
-    alert('تم حفظ إعدادات المصادقة الثنائية (محاكاة)');
+    showToast('تم حفظ إعدادات المصادقة الثنائية (محاكاة)', 'success');
 }
 
 function saveLayoutOrder() {
-    alert('تم حفظ ترتيب التخطيط (محاكاة)');
+    showToast('تم حفظ ترتيب التخطيط (محاكاة)', 'success');
 }
 
 function importProducts() {
-    alert('تم استيراد المنتجات (محاكاة)');
+    showToast('تم استيراد المنتجات (محاكاة)', 'success');
 }
 
 function createApiKey() {
-    alert('تم إنشاء مفتاح API جديد (محاكاة)');
+    showToast('تم إنشاء مفتاح API جديد (محاكاة)', 'success');
 }
 
 function openAddAgentModal() {
-    alert('فتح نموذج إضافة وكيل (قيد التطوير)');
+    showToast('فتح نموذج إضافة وكيل (قيد التطوير)', 'info');
 }
 
 function openAddAdminModal() {
-    alert('فتح نموذج إضافة مشرف (قيد التطوير)');
+    showToast('فتح نموذج إضافة مشرف (قيد التطوير)', 'info');
 }
 
 function generateCard() {
-    alert('تم إنشاء بطاقة جديدة (محاكاة)');
+    showToast('تم إنشاء بطاقة جديدة (محاكاة)', 'success');
 }
 
 // ==================== تهيئة الصفحة ====================
 window.onload = function() {
     loadApiConfig();
     
-    // فقط إذا كان هناك رسم بياني في الصفحة
     if (document.getElementById('profitChart')) {
-        // تحميل Chart.js ديناميكياً فقط عند الحاجة
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
         script.onload = function() {
@@ -343,7 +396,7 @@ window.onload = function() {
     updateUIBasedOnLogin();
 };
 
-// دالة الرسم البياني (تُستدعى بعد تحميل Chart.js)
+// دالة الرسم البياني
 function initProfitChart() {
     const ctx = document.getElementById('profitChart');
     if (!ctx || typeof Chart === 'undefined') return;
