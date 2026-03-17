@@ -1,4 +1,4 @@
-/* assets/css/style.css - النسخة الفاخرة النهائية */
+/* assets/css/style.css - النسخة الفاخرة النهائية مع تحسينات Toast والأزرار الدائرية */
 
 :root {
     --bs-body-bg: #000000; /* أسود خالص */
@@ -14,6 +14,11 @@
     --shadow-gold: 0 10px 30px rgba(255, 215, 0, 0.2);
     --shadow-strong: 0 15px 40px rgba(0, 0, 0, 0.8);
     --text-muted: #9a9fb0;
+    --toast-bg: rgba(20, 22, 27, 0.95);
+    --toast-success: #10b981;
+    --toast-error: #ef4444;
+    --toast-warning: #f59e0b;
+    --toast-info: #3b82f6;
 }
 
 body {
@@ -282,6 +287,117 @@ body {
     border-color: transparent;
     transform: scale(1.05) translateY(-2px);
     box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+}
+
+/* ===== الأزرار الدائرية الجديدة (لأيقونات المستخدم والإعدادات) ===== */
+.btn-icon-circle {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% !important;
+    background: transparent;
+    border: 2px solid var(--gold-primary);
+    color: var(--gold-primary);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.btn-icon-circle:hover {
+    background: var(--gold-primary);
+    color: #000;
+    transform: scale(1.1);
+    box-shadow: var(--gold-glow);
+}
+
+.btn-icon-circle i {
+    font-size: 1.2rem;
+}
+
+/* شارة الحالة داخل الأيقونة */
+.btn-icon-circle .status-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--bs-body-bg);
+}
+
+.status-badge.success {
+    background-color: #10b981;
+}
+
+.status-badge.warning {
+    background-color: #f59e0b;
+}
+
+.status-badge.error {
+    background-color: #ef4444;
+}
+
+/* للجوال - أزرار أصغر قليلاً */
+@media (max-width: 991.98px) {
+    .btn-icon-circle {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .btn-icon-circle i {
+        font-size: 1rem;
+    }
+}
+
+/* ===== Toast Notifications ===== */
+.toast-container {
+    z-index: 9999;
+}
+
+.toast {
+    background: var(--toast-bg) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-dim);
+    border-radius: 12px;
+    box-shadow: var(--shadow-gold), var(--shadow-strong);
+    color: var(--bs-body-color);
+    min-width: 250px;
+}
+
+.toast .toast-body {
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+}
+
+.toast.bg-success {
+    background: linear-gradient(135deg, var(--toast-success), #0b8e5a) !important;
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.toast.bg-danger {
+    background: linear-gradient(135deg, var(--toast-error), #b91c1c) !important;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.toast.bg-warning {
+    background: linear-gradient(135deg, var(--toast-warning), #b45309) !important;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.toast.bg-info {
+    background: linear-gradient(135deg, var(--toast-info), #1d4ed8) !important;
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.toast .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    opacity: 0.8;
+}
+
+.toast .btn-close:hover {
+    opacity: 1;
 }
 
 /* ===== الجداول ===== */
